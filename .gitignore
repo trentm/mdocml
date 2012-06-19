@@ -1,0 +1,10 @@
+/*.o
+/*.dSYM
+/config.h
+/config.log
+/demandoc
+/libmandoc.a
+/mandoc
+/preconv
+/*.html
+/*.xhtml
