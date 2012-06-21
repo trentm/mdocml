@@ -43,7 +43,7 @@ static	int	 numescape(const char *);
  * Pass over recursive numerical expressions.  This context of this
  * function is important: it's only called within character-terminating
  * escapes (e.g., \s[xxxyyy]), so all we need to do is handle initial
- * recursion: we don't care about what's in these blocks. 
+ * recursion: we don't care about what's in these blocks.
  * This returns the number of characters skipped or -1 if an error
  * occurs (the caller should bail).
  */
@@ -67,7 +67,7 @@ numescape(const char *start)
 		if (ESCAPE_ERROR == mandoc_escape(&cp, NULL, NULL))
 			return(-1);
 		return(i + cp - &start[i]);
-	} 
+	}
 
 	if ('(' != start[i++])
 		return(0);
@@ -103,7 +103,7 @@ mandoc_escape(const char **end, const char **start, int *sz)
 	char		 c, term, numeric;
 	int		 i, lim, ssz, rlim;
 	const char	*cp, *rstart;
-	enum mandoc_esc	 gly; 
+	enum mandoc_esc	 gly;
 
 	cp = *end;
 	rstart = cp;
@@ -168,7 +168,7 @@ mandoc_escape(const char **end, const char **start, int *sz)
 			gly = ESCAPE_FONT;
 
 		rstart= &cp[i];
-		if (start) 
+		if (start)
 			*start = rstart;
 
 		switch (cp[i++]) {
@@ -257,14 +257,14 @@ mandoc_escape(const char **end, const char **start, int *sz)
 			(*end)++;
 		return(ESCAPE_NUMBERED);
 
-	/* 
+	/*
 	 * Sizes get a special category of their own.
 	 */
 	case ('s'):
 		gly = ESCAPE_IGNORE;
 
 		rstart = &cp[i];
-		if (start) 
+		if (start)
 			*start = rstart;
 
 		/* See +/- counts as a sign. */
@@ -501,7 +501,7 @@ mandoc_getarg(struct mparse *parse, char **cpp, int ln, int *pos)
 	if ('"' == *start) {
 		quoted = 1;
 		start++;
-	} 
+	}
 
 	pairs = 0;
 	white = 0;

@@ -32,14 +32,14 @@ static	size_t	term_tbl_len(size_t, void *);
 static	size_t	term_tbl_strlen(const char *, void *);
 static	void	tbl_char(struct termp *, char, size_t);
 static	void	tbl_data(struct termp *, const struct tbl *,
-			const struct tbl_dat *, 
+			const struct tbl_dat *,
 			const struct roffcol *);
 static	size_t	tbl_rulewidth(struct termp *, const struct tbl_head *);
 static	void	tbl_hframe(struct termp *, const struct tbl_span *, int);
-static	void	tbl_literal(struct termp *, const struct tbl_dat *, 
+static	void	tbl_literal(struct termp *, const struct tbl_dat *,
 			const struct roffcol *);
-static	void	tbl_number(struct termp *, const struct tbl *, 
-			const struct tbl_dat *, 
+static	void	tbl_number(struct termp *, const struct tbl *,
+			const struct tbl_dat *,
 			const struct roffcol *);
 static	void	tbl_hrule(struct termp *, const struct tbl_span *);
 static	void	tbl_vrule(struct termp *, const struct tbl_head *);
@@ -126,7 +126,7 @@ term_tbl(struct termp *tp, const struct tbl_span *sp)
 		dp = sp->first;
 		spans = 0;
 		for (hp = sp->head; hp; hp = hp->next) {
-			/* 
+			/*
 			 * If the current data header is invoked during
 			 * a spanner ("spans" > 0), don't emit anything
 			 * at all.
@@ -170,7 +170,7 @@ term_tbl(struct termp *tp, const struct tbl_span *sp)
 			    TBL_HEAD_VERT  == hp->next->pos ||
 			    TBL_HEAD_DVERT == hp->next->pos ? 1 : 2);
 
-			/* 
+			/*
 			 * Go to the next data cell and assign the
 			 * number of subsequent spans, if applicable.
 			 */
@@ -278,7 +278,7 @@ tbl_hframe(struct termp *tp, const struct tbl_span *sp, int outer)
 
 static void
 tbl_data(struct termp *tp, const struct tbl *tbl,
-		const struct tbl_dat *dp, 
+		const struct tbl_dat *dp,
 		const struct roffcol *col)
 {
 
@@ -305,7 +305,7 @@ tbl_data(struct termp *tp, const struct tbl *tbl,
 	default:
 		break;
 	}
-	
+
 	switch (dp->layout->pos) {
 	case (TBL_CELL_HORIZ):
 		tbl_char(tp, '-', col->width);
@@ -366,7 +366,7 @@ tbl_char(struct termp *tp, char c, size_t len)
 }
 
 static void
-tbl_literal(struct termp *tp, const struct tbl_dat *dp, 
+tbl_literal(struct termp *tp, const struct tbl_dat *dp,
 		const struct roffcol *col)
 {
 	size_t		 len, padl, padr;
@@ -441,4 +441,3 @@ tbl_number(struct termp *tp, const struct tbl *tbl,
 	if (col->width > sz + padl)
 		tbl_char(tp, ASCII_NBRSP, col->width - sz - padl);
 }
-

@@ -69,7 +69,7 @@ struct	curparse {
 static	int		  moptions(enum mparset *, char *);
 static	void		  mmsg(enum mandocerr, enum mandoclevel,
 				const char *, int, int, const char *);
-static	void		  parse(struct curparse *, int, 
+static	void		  parse(struct curparse *, int,
 				const char *, enum mandoclevel *);
 static	int		  toptions(struct curparse *, char *);
 static	void		  usage(void) __attribute__((noreturn));
@@ -175,14 +175,14 @@ usage(void)
 			"[-Ooption] "
 			"[-Toutput] "
 			"[-Wlevel] "
-			"[file...]\n", 
+			"[file...]\n",
 			progname);
 
 	exit((int)MANDOCLEVEL_BADARG);
 }
 
 static void
-parse(struct curparse *curp, int fd, 
+parse(struct curparse *curp, int fd,
 		const char *file, enum mandoclevel *level)
 {
 	enum mandoclevel  rc;
@@ -349,7 +349,7 @@ static int
 woptions(struct curparse *curp, char *arg)
 {
 	char		*v, *o;
-	const char	*toks[6]; 
+	const char	*toks[6];
 
 	toks[0] = "stop";
 	toks[1] = "all";
@@ -385,12 +385,12 @@ woptions(struct curparse *curp, char *arg)
 }
 
 static void
-mmsg(enum mandocerr t, enum mandoclevel lvl, 
+mmsg(enum mandocerr t, enum mandoclevel lvl,
 		const char *file, int line, int col, const char *msg)
 {
 
-	fprintf(stderr, "%s:%d:%d: %s: %s", 
-			file, line, col + 1, 
+	fprintf(stderr, "%s:%d:%d: %s: %s",
+			file, line, col + 1,
 			mparse_strlevel(lvl),
 			mparse_strerror(t));
 

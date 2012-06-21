@@ -84,7 +84,7 @@ getsubopt(char **optionp, char * const *tokens, char **valuep)
 			*p = '\0';
 			for (*valuep = ++p;
 			    *p && *p != ',' && *p != ' ' && *p != '\t'; ++p);
-			if (*p) 
+			if (*p)
 				*p++ = '\0';
 		} else
 			*p++ = '\0';

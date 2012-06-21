@@ -56,7 +56,7 @@ struct	mdoc_macro {
 #define	MDOC_PARSED	 (1 << 1)
 #define	MDOC_EXPLICIT	 (1 << 2)
 #define	MDOC_PROLOGUE	 (1 << 3)
-#define	MDOC_IGNDELIM	 (1 << 4) 
+#define	MDOC_IGNDELIM	 (1 << 4)
 	/* Reserved words in arguments treated as text. */
 };
 
@@ -104,11 +104,11 @@ __BEGIN_DECLS
 #define		  mdoc_nmsg(m, n, t) \
 		  mandoc_msg((t), (m)->parse, (n)->line, (n)->pos, NULL)
 int		  mdoc_macro(MACRO_PROT_ARGS);
-int		  mdoc_word_alloc(struct mdoc *, 
+int		  mdoc_word_alloc(struct mdoc *,
 			int, int, const char *);
-int		  mdoc_elem_alloc(struct mdoc *, int, int, 
+int		  mdoc_elem_alloc(struct mdoc *, int, int,
 			enum mdoct, struct mdoc_arg *);
-int		  mdoc_block_alloc(struct mdoc *, int, int, 
+int		  mdoc_block_alloc(struct mdoc *, int, int,
 			enum mdoct, struct mdoc_arg *);
 int		  mdoc_head_alloc(struct mdoc *, int, int, enum mdoct);
 int		  mdoc_tail_alloc(struct mdoc *, int, int, enum mdoct);
@@ -131,7 +131,7 @@ enum margverr	  mdoc_argv(struct mdoc *, int, enum mdoct,
 void		  mdoc_argv_free(struct mdoc_arg *);
 enum margserr	  mdoc_args(struct mdoc *, int,
 			int *, char *, enum mdoct, char **);
-enum margserr	  mdoc_zargs(struct mdoc *, int, 
+enum margserr	  mdoc_zargs(struct mdoc *, int,
 			int *, char *, char **);
 int		  mdoc_macroend(struct mdoc *);
 enum mdelim	  mdoc_isdelim(const char *);

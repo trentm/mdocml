@@ -60,7 +60,7 @@ man_hash_init(void)
 
 	memset(table, UCHAR_MAX, sizeof(table));
 
-	assert(/* LINTED */ 
+	assert(/* LINTED */
 			MAN_MAX < UCHAR_MAX);
 
 	for (i = 0; i < (int)MAN_MAX; i++) {

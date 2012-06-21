@@ -35,7 +35,7 @@ static	size_t	 html_tbl_strlen(const char *, void *);
 static size_t
 html_tbl_len(size_t sz, void *arg)
 {
-	
+
 	return(sz);
 }
 

@@ -91,7 +91,7 @@ manpath_parse(struct manpaths *dirs, const char *file,
 
 	/* Always prepend -m. */
  	manpath_parseline(dirs, auxp);
- 
+
 	/* If -M is given, it overrides everything else. */
 	if (NULL != defp) {
 		manpath_parseline(dirs, defp);

@@ -64,7 +64,7 @@ struct	mparse {
 	int		  reparse_count; /* finite interp. stack */
 	mandocmsg	  mmsg; /* warning/error message handler */
 	void		 *arg; /* argument to mmsg */
-	const char	 *file; 
+	const char	 *file;
 	struct buf	 *secondary;
 };
 
@@ -150,7 +150,7 @@ static	const char * const	mandocerrs[MANDOCERR_MAX] = {
 
 	/* related to equations */
 	"unexpected literal in equation",
-	
+
 	"generic error",
 
 	/* related to equations */
@@ -246,13 +246,13 @@ pset(const char *buf, int pos, struct mparse *curp)
 
 	switch (curp->inttype) {
 	case (MPARSE_MDOC):
-		if (NULL == curp->pmdoc) 
+		if (NULL == curp->pmdoc)
 			curp->pmdoc = mdoc_alloc(curp->roff, curp);
 		assert(curp->pmdoc);
 		curp->mdoc = curp->pmdoc;
 		return;
 	case (MPARSE_MAN):
-		if (NULL == curp->pman) 
+		if (NULL == curp->pman)
 			curp->pman = man_alloc(curp->roff, curp);
 		assert(curp->pman);
 		curp->man = curp->pman;
@@ -262,14 +262,14 @@ pset(const char *buf, int pos, struct mparse *curp)
 	}
 
 	if (pos >= 3 && 0 == memcmp(buf, ".Dd", 3))  {
-		if (NULL == curp->pmdoc) 
+		if (NULL == curp->pmdoc)
 			curp->pmdoc = mdoc_alloc(curp->roff, curp);
 		assert(curp->pmdoc);
 		curp->mdoc = curp->pmdoc;
 		return;
-	} 
+	}
 
-	if (NULL == curp->pman) 
+	if (NULL == curp->pman)
 		curp->pman = man_alloc(curp->roff, curp);
 	assert(curp->pman);
 	curp->man = curp->pman;
@@ -293,8 +293,8 @@ mparse_buf_r(struct mparse *curp, struct buf blk, int start)
 
 	memset(&ln, 0, sizeof(struct buf));
 
-	lnn = curp->line; 
-	pos = 0; 
+	lnn = curp->line;
+	pos = 0;
 
 	for (i = 0; i < (int)blk.sz; ) {
 		if (0 == pos && '\0' == blk.buf[i])
@@ -322,7 +322,7 @@ mparse_buf_r(struct mparse *curp, struct buf blk, int start)
 				break;
 			}
 
-			/* 
+			/*
 			 * Warn about bogus characters.  If you're using
 			 * non-ASCII encoding, you're screwing your
 			 * readers.  Since I'd rather this not happen,
@@ -333,7 +333,7 @@ mparse_buf_r(struct mparse *curp, struct buf blk, int start)
 
 			c = (unsigned char) blk.buf[i];
 
-			if ( ! (isascii(c) && 
+			if ( ! (isascii(c) &&
 					(isgraph(c) || isblank(c)))) {
 				mandoc_msg(MANDOCERR_BADCHAR, curp,
 						curp->line, pos, NULL);
@@ -422,12 +422,12 @@ mparse_buf_r(struct mparse *curp, struct buf blk, int start)
 		 */
 
 		if (curp->secondary) {
-			curp->secondary->buf = 
+			curp->secondary->buf =
 				mandoc_realloc
-				(curp->secondary->buf, 
+				(curp->secondary->buf,
 				 curp->secondary->sz + pos + 2);
-			memcpy(curp->secondary->buf + 
-					curp->secondary->sz, 
+			memcpy(curp->secondary->buf +
+					curp->secondary->sz,
 					ln.buf, pos);
 			curp->secondary->sz += pos;
 			curp->secondary->buf
@@ -438,7 +438,7 @@ mparse_buf_r(struct mparse *curp, struct buf blk, int start)
 		}
 rerun:
 		rr = roff_parseln
-			(curp->roff, curp->line, 
+			(curp->roff, curp->line,
 			 &ln.buf, &ln.sz, of, &of);
 
 		switch (rr) {
@@ -467,7 +467,7 @@ rerun:
 			 * buffer because we're going to descend into
 			 * the file recursively.
 			 */
-			if (curp->secondary) 
+			if (curp->secondary)
 				curp->secondary->sz -= pos + 1;
 			mparse_readfd_r(curp, -1, ln.buf + of, 1);
 			if (MANDOCLEVEL_FATAL <= curp->file_status)
@@ -496,7 +496,7 @@ rerun:
 		if ( ! (curp->man || curp->mdoc))
 			pset(ln.buf + of, pos - of, curp);
 
-		/* 
+		/*
 		 * Lastly, push down into the parsers themselves.  One
 		 * of these will have already been set in the pset()
 		 * routine.
@@ -518,16 +518,16 @@ rerun:
 					break;
 			}
 		else if (ROFF_EQN == rr)
-			rc = curp->mdoc ? 
-				mdoc_addeqn(curp->mdoc, 
+			rc = curp->mdoc ?
+				mdoc_addeqn(curp->mdoc,
 					roff_eqn(curp->roff)) :
 				man_addeqn(curp->man,
 					roff_eqn(curp->roff));
 		else if (curp->man || curp->mdoc)
 			rc = curp->man ?
-				man_parseln(curp->man, 
+				man_parseln(curp->man,
 					curp->line, ln.buf, of) :
-				mdoc_parseln(curp->mdoc, 
+				mdoc_parseln(curp->mdoc,
 					curp->line, ln.buf, of);
 
 		if (0 == rc) {
@@ -575,7 +575,7 @@ read_whole_file(const char *file, int fd, struct buf *fb, int *with_mmap)
 		}
 		*with_mmap = 1;
 		fb->sz = (size_t)st.st_size;
-		fb->buf = mmap(NULL, fb->sz, PROT_READ, 
+		fb->buf = mmap(NULL, fb->sz, PROT_READ,
 				MAP_FILE|MAP_SHARED, fd, 0);
 		if (fb->buf != MAP_FAILED)
 			return(1);
@@ -797,7 +797,7 @@ mandoc_vmsg(enum mandocerr t, struct mparse *m,
 }
 
 void
-mandoc_msg(enum mandocerr er, struct mparse *m, 
+mandoc_msg(enum mandocerr er, struct mparse *m,
 		int ln, int col, const char *msg)
 {
 	enum mandoclevel level;

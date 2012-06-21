@@ -31,7 +31,7 @@
 #include "libman.h"
 #include "libmandoc.h"
 
-const	char *const __man_macronames[MAN_MAX] = {		 
+const	char *const __man_macronames[MAN_MAX] = {
 	"br",		"TH",		"SH",		"SS",
 	"TP", 		"LP",		"PP",		"P",
 	"IP",		"HP",		"SM",		"SB",
@@ -45,12 +45,12 @@ const	char *const __man_macronames[MAN_MAX] = {
 
 const	char * const *man_macronames = __man_macronames;
 
-static	struct man_node	*man_node_alloc(struct man *, int, int, 
+static	struct man_node	*man_node_alloc(struct man *, int, int,
 				enum man_type, enum mant);
-static	int		 man_node_append(struct man *, 
+static	int		 man_node_append(struct man *,
 				struct man_node *);
 static	void		 man_node_free(struct man_node *);
-static	void		 man_node_unlink(struct man *, 
+static	void		 man_node_unlink(struct man *,
 				struct man_node *);
 static	int		 man_ptext(struct man *, int, char *, int);
 static	int		 man_pmacro(struct man *, int, char *, int);
@@ -132,7 +132,7 @@ man_parseln(struct man *m, int ln, char *buf, int offs)
 	assert( ! (MAN_HALT & m->flags));
 
 	return (mandoc_getcontrol(buf, &offs) ?
-			man_pmacro(m, ln, buf, offs) : 
+			man_pmacro(m, ln, buf, offs) :
 			man_ptext(m, ln, buf, offs));
 }
 
@@ -192,7 +192,7 @@ man_node_append(struct man *man, struct man_node *p)
 		abort();
 		/* NOTREACHED */
 	}
-	
+
 	assert(p->parent);
 	p->parent->nchild++;
 
@@ -234,7 +234,7 @@ man_node_append(struct man *man, struct man_node *p)
 
 
 static struct man_node *
-man_node_alloc(struct man *m, int line, int pos, 
+man_node_alloc(struct man *m, int line, int pos,
 		enum man_type type, enum mant tok)
 {
 	struct man_node *p;
@@ -440,9 +440,9 @@ man_ptext(struct man *m, int line, char *buf, int offs)
 		return(man_descope(m, line, offs));
 	}
 
-	/* 
+	/*
 	 * Warn if the last un-escaped character is whitespace. Then
-	 * strip away the remaining spaces (tabs stay!).   
+	 * strip away the remaining spaces (tabs stay!).
 	 */
 
 	i = (int)strlen(buf);
@@ -499,7 +499,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 	 */
 
 	i = 0;
-	while (i < 4 && '\0' != buf[offs] && 
+	while (i < 4 && '\0' != buf[offs] &&
 			' ' != buf[offs] && '\t' != buf[offs])
 		mac[i++] = buf[offs++];
 
@@ -508,7 +508,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 	tok = (i > 0 && i < 4) ? man_hash_find(mac) : MAN_MAX;
 
 	if (MAN_MAX == tok) {
-		mandoc_vmsg(MANDOCERR_MACRO, m->parse, ln, 
+		mandoc_vmsg(MANDOCERR_MACRO, m->parse, ln,
 				ppos, "%s", buf + ppos - 1);
 		return(1);
 	}
@@ -518,7 +518,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 	while (buf[offs] && ' ' == buf[offs])
 		offs++;
 
-	/* 
+	/*
 	 * Trailing whitespace.  Note that tabs are allowed to be passed
 	 * into the parser as "text", so we only warn about spaces here.
 	 */
@@ -526,7 +526,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 	if ('\0' == buf[offs] && ' ' == buf[offs - 1])
 		man_pmsg(m, ln, offs - 1, MANDOCERR_EOLNSPACE);
 
-	/* 
+	/*
 	 * Remove prior ELINE macro, as it's being clobbered by a new
 	 * macro.  Note that NSCOPED macros do not close out ELINE
 	 * macros---they don't print text---so we let those slip by.
@@ -542,7 +542,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 		if (MAN_NSCOPED & man_macros[n->tok].flags)
 			n = n->parent;
 
-		mandoc_vmsg(MANDOCERR_LINESCOPE, m->parse, n->line, 
+		mandoc_vmsg(MANDOCERR_LINESCOPE, m->parse, n->line,
 		    n->pos, "%s breaks %s", man_macronames[tok],
 		    man_macronames[n->tok]);
 
@@ -573,7 +573,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 		assert(MAN_BLOCK == n->type);
 		assert(MAN_SCOPED & man_macros[n->tok].flags);
 
-		mandoc_vmsg(MANDOCERR_LINESCOPE, m->parse, n->line, 
+		mandoc_vmsg(MANDOCERR_LINESCOPE, m->parse, n->line,
 		    n->pos, "%s breaks %s", man_macronames[tok],
 		    man_macronames[n->tok]);
 
@@ -596,13 +596,13 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 	if ( ! (*man_macros[tok].fp)(m, tok, ln, ppos, &offs, buf))
 		goto err;
 
-	/* 
+	/*
 	 * We weren't in a block-line scope when entering the
 	 * above-parsed macro, so return.
 	 */
 
 	if ( ! (MAN_BPLINE & m->flags)) {
-		m->flags &= ~MAN_ILINE; 
+		m->flags &= ~MAN_ILINE;
 		return(1);
 	}
 	m->flags &= ~MAN_BPLINE;
@@ -617,7 +617,7 @@ man_pmacro(struct man *m, int ln, char *buf, int offs)
 		return(1);
 	}
 
-	/* 
+	/*
 	 * If we've opened a new next-line element scope, then return
 	 * now, as the next line will close out the block scope.
 	 */

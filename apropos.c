@@ -104,7 +104,7 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (0 == argc) 
+	if (0 == argc)
 		return(EXIT_SUCCESS);
 
 	rc = 0;
@@ -113,14 +113,14 @@ main(int argc, char *argv[])
 
 	e = whatis ? termcomp(argc, argv, &terms) :
 		     exprcomp(argc, argv, &terms);
-		
+
 	if (NULL == e) {
 		fprintf(stderr, "%s: Bad expression\n", progname);
 		goto out;
 	}
 
 	rc = apropos_search
-		(paths.sz, paths.paths, &opts, 
+		(paths.sz, paths.paths, &opts,
 		 e, terms, NULL, &ressz, &res, list);
 
 	terms = 1;
@@ -134,7 +134,7 @@ main(int argc, char *argv[])
 	if ( ! SINGLETON(res, ressz)) {
 		printf("Which manpage would you like [1]? ");
 		fflush(stdout);
-		if (NULL != (cp = fgetln(stdin, &sz)) && 
+		if (NULL != (cp = fgetln(stdin, &sz)) &&
 				sz > 1 && '\n' == cp[--sz]) {
 			if ((ch = atoi(cp)) <= 0)
 				goto out;
@@ -166,9 +166,9 @@ out:
 	} else if (pid > 0) {
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[1]);
-		prog = NULL != getenv("MANPAGER") ? 
+		prog = NULL != getenv("MANPAGER") ?
 			getenv("MANPAGER") :
-			(NULL != getenv("PAGER") ? 
+			(NULL != getenv("PAGER") ?
 			 getenv("PAGER") : "more");
 		execlp(prog, prog, (char *)NULL);
 		perror(prog);
@@ -196,7 +196,7 @@ list(struct res *res, size_t sz, void *arg)
 
 	if ( ! isatty(STDOUT_FILENO))
 		for (i = 0; i < sz && res[i].matched; i++)
-			printf("%s(%s%s%s) - %.70s\n", 
+			printf("%s(%s%s%s) - %.70s\n",
 					res[i].title, res[i].cat,
 					*res[i].arch ? "/" : "",
 					*res[i].arch ? res[i].arch : "",

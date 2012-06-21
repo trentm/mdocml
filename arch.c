@@ -33,7 +33,7 @@ const char *
 mdoc_a2arch(const char *p)
 {
 
-#include "arch.in" 
+#include "arch.in"
 
 	return(NULL);
 }

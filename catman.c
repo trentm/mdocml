@@ -125,7 +125,7 @@ main(int argc, char *argv[])
 static void
 usage(void)
 {
-	
+
 	fprintf(stderr, "usage: %s "
 			"[-fv] "
 			"[-C file] "
@@ -173,7 +173,7 @@ filecpy(const char *dst, const char *src)
 	} else if (-1 == (sfd = open(src, O_RDONLY, 0))) {
 		perror(src);
 		goto out;
-	} 
+	}
 
 	while ((rsz = read(sfd, buf, BUFSIZ)) > 0)
 		if (-1 == (wsz = write(dfd, buf, (size_t)rsz))) {
@@ -183,7 +183,7 @@ filecpy(const char *dst, const char *src)
 			fprintf(stderr, "%s: Short write\n", dst);
 			goto out;
 		}
-	
+
 	if (rsz < 0)
 		perror(src);
 	else
@@ -275,7 +275,7 @@ indexhtml(char *src, size_t ssz, char *dst, size_t dsz)
 
 	if (c < 0)
 		perror(fname);
-	else if (0 == c) 
+	else if (0 == c)
 		fprintf(stderr, "%s: Corrupt index\n", fname);
 
 	return(1 == c ? 1 : -1);

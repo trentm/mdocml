@@ -161,7 +161,7 @@ print_mdoc(const struct mdoc_node *n, int indent)
 			if (argv[i].sz > 0)
 				printf(" ]");
 		}
-		
+
 		for (i = 0; i < (int)sz; i++)
 			printf(" [%s]", params[i]);
 
@@ -290,9 +290,9 @@ print_box(const struct eqn_box *ep, int indent)
 	}
 
 	assert(t);
-	printf("%s(%d, %d, %d, %d, %d, \"%s\", \"%s\") %s\n", 
+	printf("%s(%d, %d, %d, %d, %d, \"%s\", \"%s\") %s\n",
 		t, EQN_DEFSIZE == ep->size ? 0 : ep->size,
-		ep->pos, ep->font, ep->mark, ep->pile, 
+		ep->pos, ep->font, ep->mark, ep->pile,
 		ep->left ? ep->left : "",
 		ep->right ? ep->right : "",
 		ep->text ? ep->text : "");

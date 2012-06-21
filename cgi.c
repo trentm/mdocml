@@ -113,7 +113,7 @@ static	const char	 *css; /* css directory */
 static	const char	 *host; /* hostname */
 
 static	const char * const pages[PAGE__MAX] = {
-	"index", /* PAGE_INDEX */ 
+	"index", /* PAGE_INDEX */
 	"search", /* PAGE_SEARCH */
 	"show", /* PAGE_SHOW */
 };
@@ -132,7 +132,7 @@ atou(const char *buf, unsigned *v)
 	lval = strtol(buf, &ep, 10);
 	if (buf[0] == '\0' || *ep != '\0')
 		return(0);
-	if ((errno == ERANGE && (lval == LONG_MAX || 
+	if ((errno == ERANGE && (lval == LONG_MAX ||
 					lval == LONG_MIN)) ||
 			(lval > INT_MAX || lval < 0))
 		return(0);
@@ -209,7 +209,7 @@ http_print(const char *p)
 static void
 html_print(const char *p)
 {
-	
+
 	if (NULL == p)
 		return;
 	while ('\0' != *p)
@@ -272,7 +272,7 @@ http_parse(struct req *req, char *p)
 
 	req->q.legacy = legacy > 0;
 
-	/* 
+	/*
 	 * Section "0" means no section when in legacy mode.
 	 * For some man.cgi scripts, "default" arch is none.
 	 */
@@ -506,7 +506,7 @@ resp_search(struct res *r, size_t sz, void *arg)
 	for (matched = i = 0; i < sz; i++)
 		if (r[i].matched)
 			matched++;
-	
+
 	if (1 == matched) {
 		for (i = 0; i < sz; i++)
 			if (r[i].matched)
@@ -548,7 +548,7 @@ resp_search(struct res *r, size_t sz, void *arg)
 			continue;
 		printf("<TR>\n"
 		       "<TD CLASS=\"title\">\n"
-		       "<A HREF=\"%s/show/%d/%u/%u.html?", 
+		       "<A HREF=\"%s/show/%d/%u/%u.html?",
 				progname, req->q.manroot,
 				r[i].volume, r[i].rec);
 		html_printquery(req);
@@ -603,7 +603,7 @@ catman(const struct req *req, const char *file)
 	while (NULL != (p = fgetln(f, &len))) {
 		bold = italic = 0;
 		for (i = 0; i < (int)len - 1; i++) {
-			/* 
+			/*
 			 * This means that the catpage is out of state.
 			 * Ignore it and keep going (although the
 			 * catpage is bogus).
@@ -644,7 +644,7 @@ catman(const struct req *req, const char *file)
 				continue;
 			}
 
-			/* 
+			/*
 			 * Handle funny behaviour troff-isms.
 			 * These grok'd from the original man2html.c.
 			 */
@@ -682,7 +682,7 @@ catman(const struct req *req, const char *file)
 			}
 
 			/* Bold mode. */
-			
+
 			if (italic)
 				printf("</I>");
 			if ( ! bold)
@@ -693,9 +693,9 @@ catman(const struct req *req, const char *file)
 			html_putchar(p[i]);
 		}
 
-		/* 
+		/*
 		 * Clean up the last character.
-		 * We can get to a newline; don't print that. 
+		 * We can get to a newline; don't print that.
 		 */
 
 		if (italic)
@@ -791,7 +791,7 @@ pg_show(const struct req *req, char *path)
 	if (NULL == path || NULL == (sub = strchr(path, '/'))) {
 		resp_error400();
 		return;
-	} 
+	}
 	*sub++ = '\0';
 	if ( ! atou(path, &mr)) {
 		resp_error400();
@@ -859,13 +859,13 @@ pg_show(const struct req *req, char *path)
 	cp = (char *)val.data;
 	catm = 'c' == *cp++;
 
-	if (NULL == memchr(cp, '\0', val.size - 1)) 
+	if (NULL == memchr(cp, '\0', val.size - 1))
 		resp_baddb();
 	else {
  		file[(int)sz] = '\0';
  		strlcat(file, "/", MAXPATHLEN);
  		strlcat(file, cp, MAXPATHLEN);
-		if (catm) 
+		if (catm)
 			catman(req, file);
 		else
 			format(req, file);
@@ -945,12 +945,12 @@ pg_search(const struct req *req, char *path)
 	 * The resp_search() function is called with the results.
 	 */
 
-	expr = req->q.legacy ? 
+	expr = req->q.legacy ?
 		termcomp(sz, cp, &tt) : exprcomp(sz, cp, &tt);
 
 	if (NULL != expr)
 		rc = apropos_search
-			(ps.sz, ps.paths, &opt, expr, tt, 
+			(ps.sz, ps.paths, &opt, expr, tt,
 			 (void *)req, &ressz, &res, resp_search);
 
 	/* ...unless errors occured. */
@@ -1006,7 +1006,7 @@ main(void)
 		perror(cache);
 		resp_bad();
 		return(EXIT_FAILURE);
-	} 
+	}
 
 	memset(&req, 0, sizeof(struct req));
 
@@ -1023,7 +1023,7 @@ main(void)
 	 * Now juggle paths to extract information.
 	 * We want to extract our filetype (the file suffix), the
 	 * initial path component, then the trailing component(s).
-	 * Start with leading subpath component. 
+	 * Start with leading subpath component.
 	 */
 
 	subpath = path = NULL;
@@ -1049,7 +1049,7 @@ main(void)
 	/* Map path into one we recognise. */
 
 	if (NULL != path && '\0' != *path)
-		for (i = 0; i < (int)PAGE__MAX; i++) 
+		for (i = 0; i < (int)PAGE__MAX; i++)
 			if (0 == strcmp(pages[i], path)) {
 				req.page = (enum page)i;
 				break;
@@ -1124,9 +1124,9 @@ pathgen(DIR *dir, char *path, struct req *req)
 	if (sz >= MAXPATHLEN) {
 		fprintf(stderr, "%s: Path too long", path);
 		return;
-	} 
+	}
 
-	/* 
+	/*
 	 * First, scan for the "etc" directory.
 	 * If it's found, then see if it should cause us to stop.  This
 	 * happens when a catman.conf is found in the directory.
@@ -1146,8 +1146,8 @@ pathgen(DIR *dir, char *path, struct req *req)
 		} else if (NULL == (cd = opendir(path))) {
 			perror(path);
 			return;
-		} 
-		
+		}
+
 		rc = pathstop(cd);
 		closedir(cd);
 	}
@@ -1156,25 +1156,25 @@ pathgen(DIR *dir, char *path, struct req *req)
 		/* This also strips the trailing slash. */
 		path[(int)--sz] = '\0';
 		req->p = mandoc_realloc
-			(req->p, 
+			(req->p,
 			 (req->psz + 1) * sizeof(struct paths));
 		/*
 		 * Strip out the leading "./" unless we're just a ".",
 		 * in which case use an empty string as our name.
 		 */
 		req->p[(int)req->psz].path = mandoc_strdup(path);
-		req->p[(int)req->psz].name = 
+		req->p[(int)req->psz].name =
 			cp = mandoc_strdup(path + (1 == sz ? 1 : 2));
 		req->psz++;
-		/* 
+		/*
 		 * The name is just the path with all the slashes taken
-		 * out of it.  Simple but effective. 
+		 * out of it.  Simple but effective.
 		 */
-		for ( ; '\0' != *cp; cp++) 
+		for ( ; '\0' != *cp; cp++)
 			if ('/' == *cp)
 				*cp = ' ';
 		return;
-	} 
+	}
 
 	/*
 	 * If no etc/catman.conf was found, recursively enter child

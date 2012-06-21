@@ -52,7 +52,7 @@ term_free(struct termp *p)
 
 
 void
-term_begin(struct termp *p, term_margin head, 
+term_begin(struct termp *p, term_margin head,
 		term_margin foot, const void *arg)
 {
 
@@ -119,7 +119,7 @@ term_flushln(struct termp *p)
 	 * First, establish the maximum columns of "visible" content.
 	 * This is usually the difference between the right-margin and
 	 * an indentation, but can be, for tagged lists or columns, a
-	 * small set of values. 
+	 * small set of values.
 	 */
 	assert  (p->rmargin >= p->offset);
 	dv     = p->rmargin - p->offset;
@@ -170,7 +170,7 @@ term_flushln(struct termp *p)
 
 			/* Regular word. */
 			/* Break at the hyphen point if we overrun. */
-			if (vend > vis && vend < bp && 
+			if (vend > vis && vend < bp &&
 					ASCII_HYPH == p->buf[j])
 				jhy = j;
 
@@ -237,7 +237,7 @@ term_flushln(struct termp *p)
 			(*p->letter)(p, p->buf[i]);
 			if (8 == p->buf[i])
 				p->viscol -= (*p->width)(p, p->buf[i-1]);
-			else 
+			else
 				p->viscol += (*p->width)(p, p->buf[i]);
 		}
 		vis = vend;
@@ -289,7 +289,7 @@ term_flushln(struct termp *p)
 }
 
 
-/* 
+/*
  * A newline only breaks an existing line; it won't assert vertical
  * space.  All data in the output buffer is flushed prior to the newline
  * assertion.
@@ -457,7 +457,7 @@ term_word(struct termp *p, const char *word)
 			break;
 		case (ESCAPE_SPECIAL):
 			cp = mchars_spec2str(p->symtab, seq, sz, &ssz);
-			if (NULL != cp) 
+			if (NULL != cp)
 				encode(p, cp, ssz);
 			else if (1 == ssz)
 				encode(p, seq, sz);
@@ -552,7 +552,7 @@ encode(struct termp *p, const char *word, size_t sz)
 	 */
 
 	if (TERMFONT_NONE == (f = term_fonttop(p))) {
-		if (p->col + len >= p->maxcols) 
+		if (p->col + len >= p->maxcols)
 			adjbuf(p, p->col + len);
 		for (i = 0; i < len; i++)
 			p->buf[p->col++] = word[i];

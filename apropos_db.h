@@ -60,7 +60,7 @@ __BEGIN_DECLS
 struct	expr;
 
 int		 apropos_search(int, char **, const struct opts *,
-			const struct expr *, size_t, 
+			const struct expr *, size_t,
 			void *, size_t *, struct res **,
 			void (*)(struct res *, size_t, void *));
 struct	expr	*exprcomp(int, char *[], size_t *);

@@ -179,10 +179,10 @@ html_free(void *p)
 	h = (struct html *)p;
 
 	while ((tag = h->tags.head) != NULL) {
-		h->tags.head = tag->next;	
+		h->tags.head = tag->next;
 		free(tag);
 	}
-	
+
 	if (h->symtab)
 		mchars_free(h->symtab);
 
@@ -392,7 +392,7 @@ print_attr(struct html *h, const char *key, const char *val)
 
 
 struct tag *
-print_otag(struct html *h, enum htmltag tag, 
+print_otag(struct html *h, enum htmltag tag,
 		int sz, const struct htmlpair *p)
 {
 	int		 i;
@@ -463,12 +463,12 @@ print_otag(struct html *h, enum htmltag tag,
 static void
 print_ctag(struct html *h, enum htmltag tag)
 {
-	
+
 	printf("</%s>", htmltags[tag].name);
 	if (HTML_CLRLINE & htmltags[tag].flags) {
 		h->flags |= HTML_NOSPACE;
 		putchar('\n');
-	} 
+	}
 }
 
 void
@@ -492,7 +492,7 @@ print_gen_decls(struct html *h)
 		break;
 	}
 
-	printf("<!DOCTYPE %s PUBLIC \"%s\" \"%s\">\n", 
+	printf("<!DOCTYPE %s PUBLIC \"%s\" \"%s\">\n",
 			name, doctype, dtd);
 }
 
@@ -538,7 +538,7 @@ print_tagq(struct html *h, const struct tag *until)
 	struct tag	*tag;
 
 	while ((tag = h->tags.head) != NULL) {
-		/* 
+		/*
 		 * Remember to close out and nullify the current
 		 * meta-font and table, if applicable.
 		 */
@@ -563,7 +563,7 @@ print_stagq(struct html *h, const struct tag *suntil)
 	while ((tag = h->tags.head) != NULL) {
 		if (suntil && tag == suntil)
 			return;
-		/* 
+		/*
 		 * Remember to close out and nullify the current
 		 * meta-font and table, if applicable.
 		 */
@@ -609,7 +609,7 @@ bufcat_fmt(struct html *h, const char *fmt, ...)
 	va_list		 ap;
 
 	va_start(ap, fmt);
-	(void)vsnprintf(h->buf + (int)h->buflen, 
+	(void)vsnprintf(h->buf + (int)h->buflen,
 			BUFSIZ - h->buflen - 1, fmt, ap);
 	va_end(ap);
 	h->buflen = strlen(h->buf);
@@ -630,7 +630,7 @@ buffmt_includes(struct html *h, const char *name)
 	const char	*p, *pp;
 
 	pp = h->base_includes;
-	
+
 	bufinit(h);
 	while (NULL != (p = strchr(pp, '%'))) {
 		bufncat(h, pp, (size_t)(p - pp));
@@ -649,13 +649,13 @@ buffmt_includes(struct html *h, const char *name)
 }
 
 void
-buffmt_man(struct html *h, 
+buffmt_man(struct html *h,
 		const char *name, const char *sec)
 {
 	const char	*p, *pp;
 
 	pp = h->base_man;
-	
+
 	bufinit(h);
 	while (NULL != (p = strchr(pp, '%'))) {
 		bufncat(h, pp, (size_t)(p - pp));

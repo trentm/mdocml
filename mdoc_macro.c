@@ -51,9 +51,9 @@ static	int	  	in_line(MACRO_PROT_ARGS);
 static	int	  	obsolete(MACRO_PROT_ARGS);
 static	int	  	phrase_ta(MACRO_PROT_ARGS);
 
-static	int		dword(struct mdoc *, int, int, 
+static	int		dword(struct mdoc *, int, int,
 				const char *, enum mdelim);
-static	int	  	append_delims(struct mdoc *, 
+static	int	  	append_delims(struct mdoc *,
 				int, int *, char *);
 static	enum mdoct	lookup(enum mdoct, const char *);
 static	enum mdoct	lookup_raw(const char *);
@@ -61,12 +61,12 @@ static	int		make_pending(struct mdoc_node *, enum mdoct,
 				struct mdoc *, int, int);
 static	int	  	phrase(struct mdoc *, int, int, char *);
 static	enum mdoct 	rew_alt(enum mdoct);
-static	enum rew  	rew_dohalt(enum mdoct, enum mdoc_type, 
+static	enum rew  	rew_dohalt(enum mdoct, enum mdoc_type,
 				const struct mdoc_node *);
 static	int	  	rew_elem(struct mdoc *, enum mdoct);
-static	int	  	rew_last(struct mdoc *, 
+static	int	  	rew_last(struct mdoc *,
 				const struct mdoc_node *);
-static	int	  	rew_sub(enum mdoc_type, struct mdoc *, 
+static	int	  	rew_sub(enum mdoc_type, struct mdoc *,
 				enum mdoct, int, int);
 
 const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
@@ -75,8 +75,8 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ in_line_eoln, MDOC_PROLOGUE }, /* Dt */
 	{ in_line_eoln, MDOC_PROLOGUE }, /* Os */
 	{ blk_full, MDOC_PARSED }, /* Sh */
-	{ blk_full, MDOC_PARSED }, /* Ss */ 
-	{ in_line_eoln, 0 }, /* Pp */ 
+	{ blk_full, MDOC_PARSED }, /* Ss */
+	{ in_line_eoln, 0 }, /* Pp */
 	{ blk_part_imp, MDOC_PARSED }, /* D1 */
 	{ blk_part_imp, MDOC_PARSED }, /* Dl */
 	{ blk_full, MDOC_EXPLICIT }, /* Bd */
@@ -84,32 +84,32 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ blk_full, MDOC_EXPLICIT }, /* Bl */
 	{ blk_exp_close, MDOC_EXPLICIT }, /* El */
 	{ blk_full, MDOC_PARSED }, /* It */
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ad */ 
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ad */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* An */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ar */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Cd */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Cm */
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Dv */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Er */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ev */ 
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Dv */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Er */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ev */
 	{ in_line_eoln, 0 }, /* Ex */
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Fa */ 
-	{ in_line_eoln, 0 }, /* Fd */ 
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Fa */
+	{ in_line_eoln, 0 }, /* Fd */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Fl */
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Fn */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ft */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ic */ 
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Fn */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ft */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ic */
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* In */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Li */
-	{ blk_full, 0 }, /* Nd */ 
-	{ ctx_synopsis, MDOC_CALLABLE | MDOC_PARSED }, /* Nm */ 
+	{ blk_full, 0 }, /* Nd */
+	{ ctx_synopsis, MDOC_CALLABLE | MDOC_PARSED }, /* Nm */
 	{ blk_part_imp, MDOC_CALLABLE | MDOC_PARSED }, /* Op */
 	{ obsolete, 0 }, /* Ot */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Pa */
 	{ in_line_eoln, 0 }, /* Rv */
-	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* St */ 
+	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* St */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Va */
-	{ ctx_synopsis, MDOC_CALLABLE | MDOC_PARSED }, /* Vt */ 
+	{ ctx_synopsis, MDOC_CALLABLE | MDOC_PARSED }, /* Vt */
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* Xr */
 	{ in_line_eoln, 0 }, /* %A */
 	{ in_line_eoln, 0 }, /* %B */
@@ -127,7 +127,7 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ blk_part_imp, MDOC_CALLABLE | MDOC_PARSED }, /* Aq */
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* At */
 	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Bc */
-	{ blk_full, MDOC_EXPLICIT }, /* Bf */ 
+	{ blk_full, MDOC_EXPLICIT }, /* Bf */
 	{ blk_part_exp, MDOC_CALLABLE | MDOC_PARSED | MDOC_EXPLICIT }, /* Bo */
 	{ blk_part_imp, MDOC_CALLABLE | MDOC_PARSED }, /* Bq */
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* Bsx */
@@ -138,7 +138,7 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ blk_part_imp, MDOC_CALLABLE | MDOC_PARSED }, /* Dq */
 	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Ec */
 	{ blk_exp_close, MDOC_EXPLICIT }, /* Ef */
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Em */ 
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Em */
 	{ blk_part_exp, MDOC_CALLABLE | MDOC_PARSED | MDOC_EXPLICIT }, /* Eo */
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* Fx */
 	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Ms */
@@ -166,8 +166,8 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ in_line_argn, MDOC_CALLABLE | MDOC_PARSED }, /* Ux */
 	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Xc */
 	{ blk_part_exp, MDOC_CALLABLE | MDOC_PARSED | MDOC_EXPLICIT }, /* Xo */
-	{ blk_full, MDOC_EXPLICIT | MDOC_CALLABLE }, /* Fo */ 
-	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Fc */ 
+	{ blk_full, MDOC_EXPLICIT | MDOC_CALLABLE }, /* Fo */
+	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Fc */
 	{ blk_part_exp, MDOC_CALLABLE | MDOC_PARSED | MDOC_EXPLICIT }, /* Oo */
 	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Oc */
 	{ blk_full, MDOC_EXPLICIT }, /* Bk */
@@ -177,9 +177,9 @@ const	struct mdoc_macro __mdoc_macros[MDOC_MAX] = {
 	{ obsolete, 0 }, /* Fr */
 	{ in_line_eoln, 0 }, /* Ud */
 	{ in_line, 0 }, /* Lb */
-	{ in_line_eoln, 0 }, /* Lp */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Lk */ 
-	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Mt */ 
+	{ in_line_eoln, 0 }, /* Lp */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Lk */
+	{ in_line, MDOC_CALLABLE | MDOC_PARSED }, /* Mt */
 	{ blk_part_imp, MDOC_CALLABLE | MDOC_PARSED }, /* Brq */
 	{ blk_part_exp, MDOC_CALLABLE | MDOC_PARSED | MDOC_EXPLICIT }, /* Bro */
 	{ blk_exp_close, MDOC_EXPLICIT | MDOC_CALLABLE | MDOC_PARSED }, /* Brc */
@@ -338,7 +338,7 @@ rew_alt(enum mdoct tok)
  * REWIND_ERROR: No tok block is open at all.
  */
 static enum rew
-rew_dohalt(enum mdoct tok, enum mdoc_type type, 
+rew_dohalt(enum mdoct tok, enum mdoc_type type,
 		const struct mdoc_node *p)
 {
 
@@ -354,7 +354,7 @@ rew_dohalt(enum mdoct tok, enum mdoc_type type,
 		    REWIND_ERROR : REWIND_NONE);
 
 	/*
-	 * When starting to rewind, skip plain text 
+	 * When starting to rewind, skip plain text
 	 * and nodes that have already been rewound.
 	 */
 	if (MDOC_TEXT == p->type || MDOC_VALID & p->flags)
@@ -378,7 +378,7 @@ rew_dohalt(enum mdoct tok, enum mdoc_type type,
 
 	/*
 	 * Blocks delimited by our target token get REWIND_MORE.
-	 * Blocks delimiting our target token get REWIND_NONE. 
+	 * Blocks delimiting our target token get REWIND_NONE.
 	 */
 	switch (tok) {
 	case (MDOC_Bl):
@@ -530,7 +530,7 @@ make_pending(struct mdoc_node *broken, enum mdoct tok,
 
 
 static int
-rew_sub(enum mdoc_type t, struct mdoc *m, 
+rew_sub(enum mdoc_type t, struct mdoc *m,
 		enum mdoct tok, int line, int ppos)
 {
 	struct mdoc_node *n;
@@ -543,8 +543,8 @@ rew_sub(enum mdoc_type t, struct mdoc *m,
 		case (REWIND_THIS):
 			break;
 		case (REWIND_FORCE):
-			mandoc_vmsg(MANDOCERR_SCOPEBROKEN, m->parse, 
-					line, ppos, "%s breaks %s", 
+			mandoc_vmsg(MANDOCERR_SCOPEBROKEN, m->parse,
+					line, ppos, "%s breaks %s",
 					mdoc_macronames[tok],
 					mdoc_macronames[n->tok]);
 			/* FALLTHROUGH */
@@ -587,10 +587,10 @@ rew_sub(enum mdoc_type t, struct mdoc *m,
  * Punctuation consists of those tokens found in mdoc_isdelim().
  */
 static int
-dword(struct mdoc *m, int line, 
+dword(struct mdoc *m, int line,
 		int col, const char *p, enum mdelim d)
 {
-	
+
 	if (DELIM_MAX == d)
 		d = mdoc_isdelim(p);
 
@@ -658,7 +658,7 @@ append_delims(struct mdoc *m, int line, int *pos, char *buf)
 
 
 /*
- * Close out block partial/full explicit.  
+ * Close out block partial/full explicit.
  */
 static int
 blk_exp_close(MACRO_PROT_ARGS)
@@ -713,7 +713,7 @@ blk_exp_close(MACRO_PROT_ARGS)
 			if (NULL == later)
 				break;
 
-			/* 
+			/*
 			 * When there is a pending sub block,
 			 * postpone closing out the current block
 			 * until the rew_sub() closing out the sub-block.
@@ -744,7 +744,7 @@ blk_exp_close(MACRO_PROT_ARGS)
 
 	if ( ! (MDOC_CALLABLE & mdoc_macros[tok].flags)) {
 		/* FIXME: do this in validate */
-		if (buf[*pos]) 
+		if (buf[*pos])
 			mdoc_pmsg(m, line, ppos, MANDOCERR_ARGSLOST);
 
 		if ( ! rew_sub(MDOC_BODY, m, tok, line, ppos))
@@ -755,7 +755,7 @@ blk_exp_close(MACRO_PROT_ARGS)
 	if ( ! rew_sub(MDOC_BODY, m, tok, line, ppos))
 		return(0);
 
-	if (NULL == later && maxargs > 0) 
+	if (NULL == later && maxargs > 0)
 		if ( ! mdoc_tail_alloc(m, line, ppos, rew_alt(tok)))
 			return(0);
 
@@ -848,7 +848,7 @@ in_line(MACRO_PROT_ARGS)
 		if (ARGV_WORD == av) {
 			*pos = la;
 			break;
-		} 
+		}
 		if (ARGV_EOLN == av)
 			break;
 		if (ARGV_ARG == av)
@@ -871,7 +871,7 @@ in_line(MACRO_PROT_ARGS)
 
 		ntok = ARGS_QWORD == ac ? MDOC_MAX : lookup(tok, p);
 
-		/* 
+		/*
 		 * In this case, we've located a submacro and must
 		 * execute it.  Close out scope, if open.  If no
 		 * elements have been generated, either create one (nc)
@@ -896,12 +896,12 @@ in_line(MACRO_PROT_ARGS)
 			if ( ! nl)
 				return(1);
 			return(append_delims(m, line, pos, buf));
-		} 
+		}
 
-		/* 
+		/*
 		 * Non-quote-enclosed punctuation.  Set up our scope, if
 		 * a word; rewind the scope, if a delimiter; then append
-		 * the word. 
+		 * the word.
 		 */
 
 		d = ARGS_QWORD == ac ? DELIM_NONE : mdoc_isdelim(p);
@@ -915,11 +915,11 @@ in_line(MACRO_PROT_ARGS)
 			 * this once per invocation.  There may be more
 			 * of these (all of them?).
 			 */
-			if (0 == cnt && (nc || MDOC_Li == tok) && 
+			if (0 == cnt && (nc || MDOC_Li == tok) &&
 					DELIM_CLOSE == d && ! scope) {
 				if ( ! mdoc_elem_alloc(m, line, ppos, tok, arg))
 					return(0);
-				if (MDOC_Ar == tok || MDOC_Li == tok || 
+				if (MDOC_Ar == tok || MDOC_Li == tok ||
 						MDOC_Fl == tok)
 					cnt++;
 				scope = 1;
@@ -1021,7 +1021,7 @@ blk_full(MACRO_PROT_ARGS)
 		if (ARGV_WORD == av) {
 			*pos = la;
 			break;
-		} 
+		}
 
 		if (ARGV_EOLN == av)
 			break;
@@ -1059,7 +1059,7 @@ blk_full(MACRO_PROT_ARGS)
 		if ( ! mdoc_body_alloc(m, line, ppos, tok))
 			return(0);
 		body = m->last;
-	} 
+	}
 
 	ac = ARGS_ERROR;
 
@@ -1093,12 +1093,12 @@ blk_full(MACRO_PROT_ARGS)
 			break;
 		}
 
-		/* 
+		/*
 		 * Emit leading punctuation (i.e., punctuation before
 		 * the MDOC_HEAD) for non-phrase types.
 		 */
 
-		if (NULL == head && 
+		if (NULL == head &&
 				ARGS_PEND != ac &&
 				ARGS_PHRASE != ac &&
 				ARGS_PPHRASE != ac &&
@@ -1117,7 +1117,7 @@ blk_full(MACRO_PROT_ARGS)
 			head = m->last;
 		}
 
-		if (ARGS_PHRASE == ac || 
+		if (ARGS_PHRASE == ac ||
 				ARGS_PEND == ac ||
 				ARGS_PPHRASE == ac) {
 			/*
@@ -1128,7 +1128,7 @@ blk_full(MACRO_PROT_ARGS)
 			mtt = body ? MDOC_BODY : MDOC_HEAD;
 			if ( ! rew_sub(mtt, m, tok, line, ppos))
 				return(0);
-			
+
 			/* Then allocate our body context. */
 
 			if ( ! mdoc_body_alloc(m, line, ppos, tok))
@@ -1153,7 +1153,7 @@ blk_full(MACRO_PROT_ARGS)
 			continue;
 		}
 
-		ntok = nparsed || ARGS_QWORD == ac ? 
+		ntok = nparsed || ARGS_QWORD == ac ?
 			MDOC_MAX : lookup(tok, p);
 
 		if (MDOC_MAX == ntok) {
@@ -1172,7 +1172,7 @@ blk_full(MACRO_PROT_ARGS)
 			return(0);
 		head = m->last;
 	}
-	
+
 	if (nl && ! append_delims(m, line, pos, buf))
 		return(0);
 
@@ -1188,7 +1188,7 @@ blk_full(MACRO_PROT_ARGS)
 	 * sub-block.
 	 */
 	for (n = m->last; n && n != head; n = n->parent) {
-		if (MDOC_BLOCK == n->type && 
+		if (MDOC_BLOCK == n->type &&
 				MDOC_EXPLICIT & mdoc_macros[n->tok].flags &&
 				! (MDOC_VALID & n->flags)) {
 			n->pending = head;
@@ -1271,7 +1271,7 @@ blk_part_imp(MACRO_PROT_ARGS)
 			if ( ! dword(m, line, la, p, DELIM_OPEN))
 				return(0);
 			continue;
-		} 
+		}
 
 		if (NULL == body) {
 		       if ( ! mdoc_body_alloc(m, line, ppos, tok))
@@ -1302,8 +1302,8 @@ blk_part_imp(MACRO_PROT_ARGS)
 
 	for (n = body->child; n && n->next; n = n->next)
 		/* Do nothing. */ ;
-	
-	/* 
+
+	/*
 	 * End of sentence spacing: if the last node is a text node and
 	 * has a trailing period, then mark it as being end-of-sentence.
 	 */
@@ -1336,14 +1336,14 @@ blk_part_imp(MACRO_PROT_ARGS)
 		}
 	}
 
-	/* 
+	/*
 	 * If we can't rewind to our body, then our scope has already
 	 * been closed by another macro (like `Oc' closing `Op').  This
 	 * is ugly behaviour nodding its head to OpenBSD's overwhelming
 	 * crufty use of `Op' breakage.
 	 */
 	if (n != body)
-		mandoc_vmsg(MANDOCERR_SCOPENEST, m->parse, line, ppos, 
+		mandoc_vmsg(MANDOCERR_SCOPENEST, m->parse, line, ppos,
 				"%s broken", mdoc_macronames[tok]);
 
 	if (n && ! rew_sub(MDOC_BODY, m, tok, line, ppos))
@@ -1382,7 +1382,7 @@ blk_part_exp(MACRO_PROT_ARGS)
 	 */
 
 	if ( ! mdoc_block_alloc(m, line, ppos, tok, NULL))
-		return(0); 
+		return(0);
 
 	for (head = body = NULL; ; ) {
 		la = *pos;
@@ -1403,7 +1403,7 @@ blk_part_exp(MACRO_PROT_ARGS)
 			if ( ! dword(m, line, la, p, DELIM_OPEN))
 				return(0);
 			continue;
-		} 
+		}
 
 		if (NULL == head) {
 			assert(NULL == body);
@@ -1518,7 +1518,7 @@ in_line_argn(MACRO_PROT_ARGS)
 		if (ARGV_WORD == av) {
 			*pos = la;
 			break;
-		} 
+		}
 
 		if (ARGV_EOLN == av)
 			break;
@@ -1540,8 +1540,8 @@ in_line_argn(MACRO_PROT_ARGS)
 		if (ARGS_EOLN == ac)
 			break;
 
-		if ( ! (MDOC_IGNDELIM & mdoc_macros[tok].flags) && 
-				ARGS_QWORD != ac && 0 == j && 
+		if ( ! (MDOC_IGNDELIM & mdoc_macros[tok].flags) &&
+				ARGS_QWORD != ac && 0 == j &&
 				DELIM_OPEN == mdoc_isdelim(p)) {
 			if ( ! dword(m, line, la, p, DELIM_OPEN))
 				return(0);
@@ -1620,7 +1620,7 @@ in_line_eoln(MACRO_PROT_ARGS)
 			*pos = la;
 			break;
 		}
-		if (ARGV_EOLN == av) 
+		if (ARGV_EOLN == av)
 			break;
 		if (ARGV_ARG == av)
 			continue;

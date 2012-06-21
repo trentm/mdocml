@@ -29,13 +29,13 @@
 #include "libmandoc.h"
 #include "libroff.h"
 
-static	int		 data(struct tbl_node *, struct tbl_span *, 
+static	int		 data(struct tbl_node *, struct tbl_span *,
 				int, const char *, int *);
-static	struct tbl_span	*newspan(struct tbl_node *, int, 
+static	struct tbl_span	*newspan(struct tbl_node *, int,
 				struct tbl_row *);
 
 static int
-data(struct tbl_node *tbl, struct tbl_span *dp, 
+data(struct tbl_node *tbl, struct tbl_span *dp,
 		int ln, const char *p, int *pos)
 {
 	struct tbl_dat	*dat;
@@ -48,12 +48,12 @@ data(struct tbl_node *tbl, struct tbl_span *dp,
 	else if (NULL == dp->last)
 		cp = dp->layout->first;
 
-	/* 
+	/*
 	 * Skip over spanners and vertical lines to data formats, since
 	 * we want to match data with data layout cells in the header.
 	 */
 
-	while (cp && (TBL_CELL_VERT == cp->pos || 
+	while (cp && (TBL_CELL_VERT == cp->pos ||
 				TBL_CELL_DVERT == cp->pos ||
 				TBL_CELL_SPAN == cp->pos))
 		cp = cp->next;
@@ -64,7 +64,7 @@ data(struct tbl_node *tbl, struct tbl_span *dp,
 	 */
 
 	if (NULL == cp) {
-		mandoc_msg(MANDOCERR_TBLEXTRADAT, 
+		mandoc_msg(MANDOCERR_TBLEXTRADAT,
 				tbl->parse, ln, *pos, NULL);
 		/* Skip to the end... */
 		while (p[*pos])
@@ -83,7 +83,7 @@ data(struct tbl_node *tbl, struct tbl_span *dp,
 			spans++;
 		else
 			break;
-	
+
 	dat->spans = spans;
 
 	if (dp->last) {
@@ -131,7 +131,7 @@ data(struct tbl_node *tbl, struct tbl_span *dp,
 			TBL_CELL_DHORIZ == dat->layout->pos ||
 			TBL_CELL_DOWN == dat->layout->pos)
 		if (TBL_DATA_DATA == dat->pos && '\0' != *dat->string)
-			mandoc_msg(MANDOCERR_TBLIGNDATA, 
+			mandoc_msg(MANDOCERR_TBLIGNDATA,
 					tbl->parse, ln, sv, NULL);
 
 	return(1);
@@ -173,8 +173,8 @@ tbl_cdata(struct tbl_node *tbl, int ln, const char *p)
 	} else
 		dat->string = mandoc_strdup(p);
 
-	if (TBL_CELL_DOWN == dat->layout->pos) 
-		mandoc_msg(MANDOCERR_TBLIGNDATA, 
+	if (TBL_CELL_DOWN == dat->layout->pos)
+		mandoc_msg(MANDOCERR_TBLIGNDATA,
 				tbl->parse, ln, pos, NULL);
 
 	return(0);
@@ -217,7 +217,7 @@ tbl_data(struct tbl_node *tbl, int ln, const char *p)
 		return(0);
 	}
 
-	/* 
+	/*
 	 * Choose a layout row: take the one following the last parsed
 	 * span's.  If that doesn't exist, use the last parsed span's.
 	 * If there's no last parsed span, use the first row.  Lastly,

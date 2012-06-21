@@ -65,7 +65,7 @@ static	void		  print_man_nodelist(DECL_ARGS);
 static	void		  print_man_node(DECL_ARGS);
 static	void		  print_man_head(struct termp *, const void *);
 static	void		  print_man_foot(struct termp *, const void *);
-static	void		  print_bvspace(struct termp *, 
+static	void		  print_bvspace(struct termp *,
 				const struct man_node *);
 
 static	int		  pre_B(DECL_ARGS);
@@ -102,7 +102,7 @@ static	const struct termact termacts[MAN_MAX] = {
 	{ pre_PP, NULL, 0 }, /* PP */
 	{ pre_PP, NULL, 0 }, /* P */
 	{ pre_IP, post_IP, 0 }, /* IP */
-	{ pre_HP, post_HP, 0 }, /* HP */ 
+	{ pre_HP, post_HP, 0 }, /* HP */
 	{ NULL, NULL, 0 }, /* SM */
 	{ pre_B, NULL, 0 }, /* SB */
 	{ pre_alternate, NULL, 0 }, /* BI */
@@ -422,7 +422,7 @@ pre_in(DECL_ARGS)
 		p->offset -= p->offset > v ? v : p->offset;
 	else if (less > 0)
 		p->offset += v;
-	else 
+	else
 		p->offset = v;
 
 	/* Don't let this creep beyond the right margin. */
@@ -761,7 +761,7 @@ pre_SS(DECL_ARGS)
 static void
 post_SS(DECL_ARGS)
 {
-	
+
 	switch (n->type) {
 	case (MAN_HEAD):
 		term_newln(p);
@@ -813,7 +813,7 @@ pre_SH(DECL_ARGS)
 static void
 post_SH(DECL_ARGS)
 {
-	
+
 	switch (n->type) {
 	case (MAN_HEAD):
 		term_newln(p);
@@ -846,7 +846,7 @@ pre_RS(DECL_ARGS)
 	sz = term_len(p, p->defindent);
 
 	if (NULL != (n = n->parent->head->child))
-		if ((ival = a2width(p, n->string)) >= 0) 
+		if ((ival = a2width(p, n->string)) >= 0)
 			sz = (size_t)ival;
 
 	mt->offset += sz;
@@ -879,8 +879,8 @@ post_RS(DECL_ARGS)
 
 	sz = term_len(p, p->defindent);
 
-	if (NULL != (n = n->parent->head->child)) 
-		if ((ival = a2width(p, n->string)) >= 0) 
+	if (NULL != (n = n->parent->head->child))
+		if ((ival = a2width(p, n->string)) >= 0)
 			sz = (size_t)ival;
 
 	mt->offset = mt->offset < sz ?  0 : mt->offset - sz;
@@ -919,7 +919,7 @@ print_man_node(DECL_ARGS)
 		 * more specific than this.
 		 */
 		if (MANT_LITERAL & mt->fl && ! (TERMP_NOBREAK & p->flags) &&
-				(NULL == n->next || 
+				(NULL == n->next ||
 				 n->next->line > n->line)) {
 			rm = p->rmargin;
 			rmax = p->maxrmargin;
@@ -941,7 +941,7 @@ print_man_node(DECL_ARGS)
 		 * Tables are preceded by a newline.  Then process a
 		 * table line, which will cause line termination,
 		 */
-		if (TBL_SPAN_FIRST & n->span->flags) 
+		if (TBL_SPAN_FIRST & n->span->flags)
 			term_newln(p);
 		term_tbl(p, n->span);
 		return;
@@ -1071,7 +1071,7 @@ print_man_head(struct termp *p, const void *arg)
 	p->flags |= TERMP_NOBREAK | TERMP_NOSPACE;
 	p->offset = 0;
 	p->rmargin = 2 * (titlen+1) + buflen < p->maxrmargin ?
-	    (p->maxrmargin - 
+	    (p->maxrmargin -
 	     term_strlen(p, buf) + term_len(p, 1)) / 2 :
 	    p->maxrmargin - buflen;
 
@@ -1103,7 +1103,7 @@ print_man_head(struct termp *p, const void *arg)
 	p->offset = 0;
 	p->rmargin = p->maxrmargin;
 
-	/* 
+	/*
 	 * Groff prints three blank lines before the content.
 	 * Do the same, except in the temporary, undocumented
 	 * mode imitating mdoc(7) output.

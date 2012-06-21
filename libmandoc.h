@@ -40,9 +40,9 @@ struct	roff;
 struct	mdoc;
 struct	man;
 
-void		 mandoc_msg(enum mandocerr, struct mparse *, 
+void		 mandoc_msg(enum mandocerr, struct mparse *,
 			int, int, const char *);
-void		 mandoc_vmsg(enum mandocerr, struct mparse *, 
+void		 mandoc_vmsg(enum mandocerr, struct mparse *,
 			int, int, const char *, ...);
 char		*mandoc_getarg(struct mparse *, char **, int, int *);
 char		*mandoc_normdate(struct mparse *, char *, int, int);
@@ -70,7 +70,7 @@ int		 man_addeqn(struct man *, const struct eqn *);
 void	 	 roff_free(struct roff *);
 struct roff	*roff_alloc(struct mparse *);
 void		 roff_reset(struct roff *);
-enum rofferr	 roff_parseln(struct roff *, int, 
+enum rofferr	 roff_parseln(struct roff *, int,
 			char **, size_t *, int, int *);
 void		 roff_endparse(struct roff *);
 int		 roff_regisset(const struct roff *, enum regs);
@@ -79,7 +79,7 @@ void		 roff_regunset(struct roff *, enum regs);
 char		*roff_strdup(const struct roff *, const char *);
 #if 0
 char		 roff_eqndelim(const struct roff *);
-void		 roff_openeqn(struct roff *, const char *, 
+void		 roff_openeqn(struct roff *, const char *,
 			int, int, const char *);
 int		 roff_closeeqn(struct roff *);
 #endif

@@ -128,7 +128,7 @@ void
 tbl_restart(int line, int pos, struct tbl_node *tbl)
 {
 	if (TBL_PART_CDATA == tbl->part)
-		mandoc_msg(MANDOCERR_TBLBLOCK, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBLBLOCK, tbl->parse,
 				tbl->line, tbl->pos, NULL);
 
 	tbl->part = TBL_PART_LAYOUT;
@@ -162,14 +162,13 @@ tbl_end(struct tbl_node **tblp)
 	*tblp = NULL;
 
 	if (NULL == tbl->first_span || NULL == tbl->first_span->first)
-		mandoc_msg(MANDOCERR_TBLNODATA, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBLNODATA, tbl->parse,
 				tbl->line, tbl->pos, NULL);
 
 	if (tbl->last_span)
 		tbl->last_span->flags |= TBL_SPAN_LAST;
 
 	if (TBL_PART_CDATA == tbl->part)
-		mandoc_msg(MANDOCERR_TBLBLOCK, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBLBLOCK, tbl->parse,
 				tbl->line, tbl->pos, NULL);
 }
-

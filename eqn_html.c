@@ -59,12 +59,12 @@ eqn_box(struct html *p, const struct eqn_box *bp)
 {
 	struct tag	*t;
 
-	t = EQNFONT_NONE == bp->font ? NULL : 
+	t = EQNFONT_NONE == bp->font ? NULL :
 		print_otag(p, fontmap[(int)bp->font], 0, NULL);
 
 	if (bp->left)
 		print_text(p, bp->left);
-	
+
 	if (bp->text)
 		print_text(p, bp->text);
 

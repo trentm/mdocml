@@ -446,7 +446,7 @@ pspdf_alloc(char *outopts)
 	p->hspan = ps_hspan;
 	p->letter = ps_letter;
 	p->width = ps_width;
-	
+
 	toks[0] = "paper";
 	toks[1] = NULL;
 
@@ -490,7 +490,7 @@ pspdf_alloc(char *outopts)
 			fprintf(stderr, "%s: Unknown paper\n", pp);
 	}
 
-	/* 
+	/*
 	 * This MUST be defined before any PNT2AFM or AFM2PNT
 	 * calculations occur.
 	 */
@@ -566,7 +566,7 @@ ps_printf(struct termp *p, const char *fmt, ...)
 		return;
 	}
 
-	/* 
+	/*
 	 * XXX: I assume that the in-margin print won't exceed
 	 * PS_BUFSLOP (128 bytes), which is reasonable but still an
 	 * assumption that will cause pukeage if it's not the case.
@@ -614,7 +614,7 @@ pdf_obj(struct termp *p, size_t obj)
 	if ((obj - 1) >= p->ps->pdfobjsz) {
 		p->ps->pdfobjsz = obj + 128;
 		p->ps->pdfobjs = realloc
-			(p->ps->pdfobjs, 
+			(p->ps->pdfobjs,
 			 p->ps->pdfobjsz * sizeof(size_t));
 		if (NULL == p->ps->pdfobjs) {
 			perror(NULL);
@@ -659,7 +659,7 @@ ps_closepage(struct termp *p)
 		pdf_obj(p, base + 2);
 		ps_printf(p, "<<\n/ProcSet [/PDF /Text]\n");
 		ps_printf(p, "/Font <<\n");
-		for (i = 0; i < (int)TERMFONT__MAX; i++) 
+		for (i = 0; i < (int)TERMFONT__MAX; i++)
 			ps_printf(p, "/F%d %d 0 R\n", i, 3 + i);
 		ps_printf(p, ">>\n>>\n");
 
@@ -704,7 +704,7 @@ ps_end(struct termp *p)
 		ps_printf(p, "%%%%Pages: %zu\n", p->ps->pages);
 		ps_printf(p, "%%%%EOF\n");
 		return;
-	} 
+	}
 
 	pdf_obj(p, 2);
 	ps_printf(p, "<<\n/Type /Pages\n");
@@ -719,7 +719,7 @@ ps_end(struct termp *p)
 		ps_printf(p, " %zu 0 R", i * 4 +
 				p->ps->pdfbody + 3);
 
-	base = (p->ps->pages - 1) * 4 + 
+	base = (p->ps->pages - 1) * 4 +
 		p->ps->pdfbody + 4;
 
 	ps_printf(p, "]\n>>\nendobj\n");
@@ -734,7 +734,7 @@ ps_end(struct termp *p)
 	ps_printf(p, "0000000000 65535 f \n");
 
 	for (i = 0; i < base; i++)
-		ps_printf(p, "%.10zu 00000 n \n", 
+		ps_printf(p, "%.10zu 00000 n \n",
 				p->ps->pdfobjs[(int)i]);
 
 	ps_printf(p, "trailer\n");
@@ -755,7 +755,7 @@ ps_begin(struct termp *p)
 	time_t		 t;
 	int		 i;
 
-	/* 
+	/*
 	 * Print margins into margin buffer.  Nothing gets output to the
 	 * screen yet, so we don't need to initialise the primary state.
 	 */
@@ -788,7 +788,7 @@ ps_begin(struct termp *p)
 	assert(p->ps->psmarg);
 	assert('\0' != p->ps->psmarg[0]);
 
-	/* 
+	/*
 	 * Print header and initialise page state.  Following this,
 	 * stuff gets printed to the screen, so make sure we're sane.
 	 */
@@ -850,17 +850,17 @@ ps_pletter(struct termp *p, int c)
 
 	if (PS_NEWPAGE & p->ps->flags) {
 		if (TERMTYPE_PS == p->type) {
-			ps_printf(p, "%%%%Page: %zu %zu\n", 
-					p->ps->pages + 1, 
+			ps_printf(p, "%%%%Page: %zu %zu\n",
+					p->ps->pages + 1,
 					p->ps->pages + 1);
-			ps_printf(p, "/%s %zu selectfont\n", 
-					fonts[(int)p->ps->lastf].name, 
+			ps_printf(p, "/%s %zu selectfont\n",
+					fonts[(int)p->ps->lastf].name,
 					p->ps->scale);
 		} else {
-			pdf_obj(p, p->ps->pdfbody + 
+			pdf_obj(p, p->ps->pdfbody +
 					p->ps->pages * 4);
 			ps_printf(p, "<<\n");
-			ps_printf(p, "/Length %zu 0 R\n", 
+			ps_printf(p, "/Length %zu 0 R\n",
 					p->ps->pdfbody + 1 +
 					p->ps->pages * 4);
 			ps_printf(p, ">>\nstream\n");
@@ -868,7 +868,7 @@ ps_pletter(struct termp *p, int c)
 		p->ps->pdflastpg = p->ps->pdfbytes;
 		p->ps->flags &= ~PS_NEWPAGE;
 	}
-	
+
 	/*
 	 * If we're not in a PostScript "word" context, then open one
 	 * now at the current cursor.
@@ -876,14 +876,14 @@ ps_pletter(struct termp *p, int c)
 
 	if ( ! (PS_INLINE & p->ps->flags)) {
 		if (TERMTYPE_PS != p->type) {
-			ps_printf(p, "BT\n/F%d %zu Tf\n", 
+			ps_printf(p, "BT\n/F%d %zu Tf\n",
 					(int)p->ps->lastf,
 					p->ps->scale);
 			ps_printf(p, "%.3f %.3f Td\n(",
 					AFM2PNT(p, p->ps->pscol),
 					AFM2PNT(p, p->ps->psrow));
 		} else
-			ps_printf(p, "%.3f %.3f moveto\n(", 
+			ps_printf(p, "%.3f %.3f moveto\n(",
 					AFM2PNT(p, p->ps->pscol),
 					AFM2PNT(p, p->ps->psrow));
 		p->ps->flags |= PS_INLINE;
@@ -918,7 +918,7 @@ ps_pletter(struct termp *p, int c)
 		ps_putchar(p, ' ');
 		p->ps->pscol += (size_t)fonts[f].gly[0].wx;
 		return;
-	} 
+	}
 
 	ps_putchar(p, (char)c);
 	c -= 32;
@@ -930,7 +930,7 @@ static void
 ps_pclose(struct termp *p)
 {
 
-	/* 
+	/*
 	 * Spit out that we're exiting a word context (this is a
 	 * "partial close" because we don't check the last-char buffer
 	 * or anything).
@@ -938,7 +938,7 @@ ps_pclose(struct termp *p)
 
 	if ( ! (PS_INLINE & p->ps->flags))
 		return;
-	
+
 	if (TERMTYPE_PS != p->type) {
 		ps_printf(p, ") Tj\nET\n");
 	} else
@@ -1054,7 +1054,7 @@ ps_endline(struct termp *p)
 	/*
 	 * If we're in the margin, don't try to recalculate our current
 	 * row.  XXX: if the column tries to be fancy with multiple
-	 * lines, we'll do nasty stuff. 
+	 * lines, we'll do nasty stuff.
 	 */
 
 	if (PS_MARGINS & p->ps->flags)
@@ -1074,7 +1074,7 @@ ps_endline(struct termp *p)
 	 * showpage and restart our row.
 	 */
 
-	if (p->ps->psrow >= p->ps->lineheight + 
+	if (p->ps->psrow >= p->ps->lineheight +
 			p->ps->bottom) {
 		p->ps->psrow -= p->ps->lineheight;
 		return;
@@ -1090,7 +1090,7 @@ ps_setfont(struct termp *p, enum termfont f)
 
 	assert(f < TERMFONT__MAX);
 	p->ps->lastf = f;
-	
+
 	/*
 	 * If we're still at the top of the page, let the font-setting
 	 * be delayed until we actually have stuff to print.
@@ -1100,12 +1100,12 @@ ps_setfont(struct termp *p, enum termfont f)
 		return;
 
 	if (TERMTYPE_PS == p->type)
-		ps_printf(p, "/%s %zu selectfont\n", 
-				fonts[(int)f].name, 
+		ps_printf(p, "/%s %zu selectfont\n",
+				fonts[(int)f].name,
 				p->ps->scale);
 	else
-		ps_printf(p, "/F%d %zu Tf\n", 
-				(int)f, 
+		ps_printf(p, "/F%d %zu Tf\n",
+				(int)f,
 				p->ps->scale);
 }
 
@@ -1127,7 +1127,7 @@ static double
 ps_hspan(const struct termp *p, const struct roffsu *su)
 {
 	double		 r;
-	
+
 	/*
 	 * All of these measurements are derived by converting from the
 	 * native measurement to AFM units.
@@ -1182,4 +1182,3 @@ ps_growbuf(struct termp *p, size_t sz)
 	p->ps->psmarg = mandoc_realloc
 		(p->ps->psmarg, p->ps->psmargsz);
 }
-

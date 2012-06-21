@@ -55,18 +55,18 @@ static	const struct tbl_phrase keys[KEYS_MAX] = {
 	{ '|',		 TBL_CELL_VERT }
 };
 
-static	int		 mods(struct tbl_node *, struct tbl_cell *, 
+static	int		 mods(struct tbl_node *, struct tbl_cell *,
 				int, const char *, int *);
-static	int		 cell(struct tbl_node *, struct tbl_row *, 
+static	int		 cell(struct tbl_node *, struct tbl_row *,
 				int, const char *, int *);
 static	void		 row(struct tbl_node *, int, const char *, int *);
-static	struct tbl_cell *cell_alloc(struct tbl_node *, 
+static	struct tbl_cell *cell_alloc(struct tbl_node *,
 				struct tbl_row *, enum tbl_cellt);
-static	void		 head_adjust(const struct tbl_cell *, 
+static	void		 head_adjust(const struct tbl_cell *,
 				struct tbl_head *);
 
 static int
-mods(struct tbl_node *tbl, struct tbl_cell *cp, 
+mods(struct tbl_node *tbl, struct tbl_cell *cp,
 		int ln, const char *p, int *pos)
 {
 	char		 buf[5];
@@ -90,7 +90,7 @@ mods(struct tbl_node *tbl, struct tbl_cell *cp,
 	}
 
 mod:
-	/* 
+	/*
 	 * XXX: since, at least for now, modifiers are non-conflicting
 	 * (are separable by value, regardless of position), we let
 	 * modifiers come in any order.  The existing tbl doesn't let
@@ -121,7 +121,7 @@ mod:
 			(*pos)++;
 			goto mod;
 		}
-		mandoc_msg(MANDOCERR_TBLLAYOUT, 
+		mandoc_msg(MANDOCERR_TBLLAYOUT,
 				tbl->parse, ln, *pos, NULL);
 		return(0);
 	}
@@ -149,7 +149,7 @@ mod:
 
 		goto mod;
 		/* NOTREACHED */
-	} 
+	}
 
 	/* TODO: GNU has many more extensions. */
 
@@ -211,7 +211,7 @@ mod:
 }
 
 static int
-cell(struct tbl_node *tbl, struct tbl_row *rp, 
+cell(struct tbl_node *tbl, struct tbl_row *rp,
 		int ln, const char *p, int *pos)
 {
 	int		 i;
@@ -224,7 +224,7 @@ cell(struct tbl_node *tbl, struct tbl_row *rp,
 			break;
 
 	if (KEYS_MAX == i) {
-		mandoc_msg(MANDOCERR_TBLLAYOUT, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBLLAYOUT, tbl->parse,
 				ln, *pos, NULL);
 		return(0);
 	}
@@ -275,12 +275,12 @@ cell(struct tbl_node *tbl, struct tbl_row *rp,
 	if (TBL_CELL_VERT == c && '|' == p[*pos]) {
 		(*pos)++;
 		c = TBL_CELL_DVERT;
-	} 
-	
+	}
+
 	/* Disallow adjacent spacers. */
 
 	if (rp->last && (TBL_CELL_VERT == c || TBL_CELL_DVERT == c) &&
-			(TBL_CELL_VERT == rp->last->pos || 
+			(TBL_CELL_VERT == rp->last->pos ||
 			 TBL_CELL_DVERT == rp->last->pos)) {
 		mandoc_msg(MANDOCERR_TBLLAYOUT, tbl->parse, ln, *pos - 1, NULL);
 		return(0);
@@ -322,8 +322,8 @@ cell:
 
 	if ('.' == p[*pos]) {
 		tbl->part = TBL_PART_DATA;
-		if (NULL == tbl->first_row) 
-			mandoc_msg(MANDOCERR_TBLNOLAYOUT, tbl->parse, 
+		if (NULL == tbl->first_row)
+			mandoc_msg(MANDOCERR_TBLNOLAYOUT, tbl->parse,
 					ln, *pos, NULL);
 		(*pos)++;
 		return;
@@ -378,7 +378,7 @@ cell_alloc(struct tbl_node *tbl, struct tbl_row *rp, enum tbl_cellt pos)
 	 * when need be or re-use them, otherwise.  As an example, given
 	 * the following:
 	 *
-	 * 	1  c || l 
+	 * 	1  c || l
 	 * 	2  | c | l
 	 * 	3  l l
 	 * 	3  || c | l |.
@@ -395,7 +395,7 @@ cell_alloc(struct tbl_node *tbl, struct tbl_row *rp, enum tbl_cellt pos)
 
 	if (h) {
 		/* Re-use data header. */
-		if (TBL_HEAD_DATA == h->pos && 
+		if (TBL_HEAD_DATA == h->pos &&
 				(TBL_CELL_VERT != p->pos &&
 				 TBL_CELL_DVERT != p->pos)) {
 			p->head = h;
@@ -403,7 +403,7 @@ cell_alloc(struct tbl_node *tbl, struct tbl_row *rp, enum tbl_cellt pos)
 		}
 
 		/* Re-use spanner header. */
-		if (TBL_HEAD_DATA != h->pos && 
+		if (TBL_HEAD_DATA != h->pos &&
 				(TBL_CELL_VERT == p->pos ||
 				 TBL_CELL_DVERT == p->pos)) {
 			head_adjust(p, h);
@@ -412,7 +412,7 @@ cell_alloc(struct tbl_node *tbl, struct tbl_row *rp, enum tbl_cellt pos)
 		}
 
 		/* Right-shift headers with a new spanner. */
-		if (TBL_HEAD_DATA == h->pos && 
+		if (TBL_HEAD_DATA == h->pos &&
 				(TBL_CELL_VERT == p->pos ||
 				 TBL_CELL_DVERT == p->pos)) {
 			hp = mandoc_calloc(1, sizeof(struct tbl_head));
@@ -469,4 +469,3 @@ head_adjust(const struct tbl_cell *cellp, struct tbl_head *head)
 	if (TBL_CELL_DVERT == cellp->pos)
 		head->pos = TBL_HEAD_DVERT;
 }
-

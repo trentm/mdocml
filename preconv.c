@@ -30,7 +30,7 @@
 #include <string.h>
 #include <unistd.h>
 
-/* 
+/*
  * The read_whole_file() and resize_buf() functions are copied from
  * read.c, including all dependency code (MAP_FILE, etc.).
  */
@@ -61,7 +61,7 @@ static	int	 cue_enc(const struct buf *, size_t *, enum enc *);
 static	int	 conv_latin_1(const struct buf *);
 static	int	 conv_us_ascii(const struct buf *);
 static	int	 conv_utf_8(const struct buf *);
-static	int	 read_whole_file(const char *, int, 
+static	int	 read_whole_file(const char *, int,
 			struct buf *, int *);
 static	void	 resize_buf(struct buf *, size_t);
 static	void	 usage(void);
@@ -166,14 +166,14 @@ conv_utf_8(const struct buf *b)
 			 * architecture requires it.
 			 */
 
-			if (0 == state && be) 
-				accum = (accum >> 24) | 
+			if (0 == state && be)
+				accum = (accum >> 24) |
 					((accum << 8) & 0x00FF0000) |
 					((accum >> 8) & 0x0000FF00) |
 					(accum << 24);
 
 			if (0 == state) {
-				accum < 128U ? putchar(accum) : 
+				accum < 128U ? putchar(accum) :
 					printf("\\[u%.4X]", accum);
 				accum = 0U;
 			}
@@ -183,7 +183,7 @@ conv_utf_8(const struct buf *b)
 			 * UTF-8 bitmask, calculate the expected UTF-8
 			 * state from it.
 			 */
-			for (state = 0; state < 7; state++) 
+			for (state = 0; state < 7; state++)
 				if ( ! (cu & (1 << (7 - state))))
 					break;
 
@@ -232,7 +232,7 @@ static void
 resize_buf(struct buf *buf, size_t initial)
 {
 
-	buf->sz = buf->sz > initial / 2 ? 
+	buf->sz = buf->sz > initial / 2 ?
 		2 * buf->sz : initial;
 
 	buf->buf = realloc(buf->buf, buf->sz);
@@ -243,7 +243,7 @@ resize_buf(struct buf *buf, size_t initial)
 }
 
 static int
-read_whole_file(const char *f, int fd, 
+read_whole_file(const char *f, int fd,
 		struct buf *fb, int *with_mmap)
 {
 	size_t		 off;
@@ -266,12 +266,12 @@ read_whole_file(const char *f, int fd,
 	if (S_ISREG(st.st_mode) && st.st_size >= (1U << 31)) {
 		fprintf(stderr, "%s: input too large\n", f);
 		return(0);
-	} 
-	
+	}
+
 	if (S_ISREG(st.st_mode)) {
 		*with_mmap = 1;
 		fb->sz = (size_t)st.st_size;
-		fb->buf = mmap(NULL, fb->sz, PROT_READ, 
+		fb->buf = mmap(NULL, fb->sz, PROT_READ,
 				MAP_FILE|MAP_SHARED, fd, 0);
 		if (fb->buf != MAP_FAILED)
 			return(1);
@@ -291,8 +291,8 @@ read_whole_file(const char *f, int fd,
 		if (off == fb->sz && fb->sz == (1U << 31)) {
 			fprintf(stderr, "%s: input too large\n", f);
 			break;
-		} 
-		
+		}
+
 		if (off == fb->sz)
 			resize_buf(fb, 65536);
 
@@ -334,7 +334,7 @@ cue_enc(const struct buf *b, size_t *offs, enum enc *enc)
 
 	/* Check if we have the correct header/trailer. */
 
-	if ((sz = (size_t)(eoln - ln)) < 10 || 
+	if ((sz = (size_t)(eoln - ln)) < 10 ||
 			memcmp(ln, ".\\\" -*-", 7) ||
 			memcmp(eoln - 3, "-*-", 3))
 		return(0);
@@ -366,7 +366,7 @@ cue_enc(const struct buf *b, size_t *offs, enum enc *enc)
 			sz -= phsz;
 			ln += phsz;
 			continue;
-		} 
+		}
 
 		sz -= 7;
 		ln += 7;
@@ -463,8 +463,8 @@ main(int argc, char *argv[])
 
 	argc -= optind;
 	argv += optind;
-	
-	/* 
+
+	/*
 	 * Open and read the first argument on the command-line.
 	 * If we don't have one, we default to stdin.
 	 */
@@ -504,7 +504,7 @@ main(int argc, char *argv[])
 	 * or use Latin-1 if all else fails.
 	 */
 
-	if (ENC__MAX == enc) 
+	if (ENC__MAX == enc)
 		enc = ENC__MAX == def ? ENC_LATIN_1 : def;
 
 	if ( ! (*encs[(int)enc].conv)(&b)) {
@@ -517,7 +517,7 @@ out:
 #ifdef	HAVE_MMAP
 	if (map)
 		munmap(b.buf, b.sz);
-	else 
+	else
 #endif
 		free(b.buf);
 

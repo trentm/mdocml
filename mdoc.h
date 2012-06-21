@@ -186,7 +186,7 @@ enum	mdoc_type {
 	MDOC_ROOT
 };
 
-/* 
+/*
  * Section (named/unnamed) of `Sh'.   Note that these appear in the
  * conventional order imposed by mdoc.7.  In the case of SEC_NONE, no
  * section has been invoked (this shouldn't happen).  SEC_CUSTOM refers
@@ -214,7 +214,7 @@ enum	mdoc_sec {
 	SEC_CAVEATS, /* CAVEATS */
 	SEC_BUGS, /* BUGS */
 	SEC_SECURITY, /* SECURITY */
-	SEC_CUSTOM, 
+	SEC_CUSTOM,
 	SEC__MAX
 };
 
@@ -228,8 +228,8 @@ struct	mdoc_meta {
 	char		 *name; /* leading `Nm' name */
 };
 
-/* 
- * An argument to a macro (multiple values = `-column xxx yyy'). 
+/*
+ * An argument to a macro (multiple values = `-column xxx yyy').
  */
 struct	mdoc_argv {
 	enum mdocargt  	  arg; /* type of argument */
@@ -338,8 +338,8 @@ union	mdoc_data {
 	struct mdoc_rs	  Rs;
 };
 
-/* 
- * Single node in tree-linked AST. 
+/*
+ * Single node in tree-linked AST.
  */
 struct	mdoc_node {
 	struct mdoc_node *parent; /* parent AST node */

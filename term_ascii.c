@@ -37,7 +37,7 @@
 #include "term.h"
 #include "main.h"
 
-/* 
+/*
  * Sadly, this doesn't seem to be defined on systems even when they
  * support it.  For the time being, remove it and let those compiling
  * the software decide for themselves what to use.
@@ -177,7 +177,7 @@ ascii_free(void *arg)
 static void
 ascii_letter(struct termp *p, int c)
 {
-	
+
 	putchar(c);
 }
 
@@ -283,7 +283,7 @@ locale_endline(struct termp *p)
 static void
 locale_letter(struct termp *p, int c)
 {
-	
+
 	putwchar(c);
 }
 #endif

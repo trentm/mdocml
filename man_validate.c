@@ -138,7 +138,7 @@ man_valid_pre(struct man *m, struct man_node *n)
 	if (NULL == (cp = man_valids[n->tok].pres))
 		return(1);
 	for ( ; *cp; cp++)
-		if ( ! (*cp)(m, n)) 
+		if ( ! (*cp)(m, n))
 			return(0);
 	return(1);
 }
@@ -154,7 +154,7 @@ man_valid_post(struct man *m)
 	m->last->flags |= MAN_VALID;
 
 	switch (m->last->type) {
-	case (MAN_TEXT): 
+	case (MAN_TEXT):
 		check_text(m, m->last);
 		return(1);
 	case (MAN_ROOT):
@@ -178,7 +178,7 @@ man_valid_post(struct man *m)
 
 
 static int
-check_root(CHKARGS) 
+check_root(CHKARGS)
 {
 
 	if (MAN_BLINE & m->flags)
@@ -289,8 +289,8 @@ post_ft(CHKARGS)
 
 	if (1 < n->nchild)
 		mandoc_vmsg
-			(MANDOCERR_ARGCOUNT, m->parse, n->line, 
-			 n->pos, "want one child (have %d)", 
+			(MANDOCERR_ARGCOUNT, m->parse, n->line,
+			 n->pos, "want one child (have %d)",
 			 n->nchild);
 
 	return(1);
@@ -309,7 +309,7 @@ static int
 post_sec(CHKARGS)
 {
 
-	if ( ! (MAN_HEAD == n->type && 0 == n->nchild)) 
+	if ( ! (MAN_HEAD == n->type && 0 == n->nchild))
 		return(1);
 
 	man_nmsg(m, n, MANDOCERR_SYNTARGCOUNT);
@@ -321,7 +321,7 @@ check_part(CHKARGS)
 {
 
 	if (MAN_BODY == n->type && 0 == n->nchild)
-		mandoc_msg(MANDOCERR_ARGCWARN, m->parse, n->line, 
+		mandoc_msg(MANDOCERR_ARGCWARN, m->parse, n->line,
 				n->pos, "want children (have none)");
 
 	return(1);
@@ -381,7 +381,7 @@ post_TH(CHKARGS)
 	if (n && n->string) {
 		for (p = n->string; '\0' != *p; p++) {
 			/* Only warn about this once... */
-			if (isalpha((unsigned char)*p) && 
+			if (isalpha((unsigned char)*p) &&
 					! isupper((unsigned char)*p)) {
 				man_nmsg(m, n, MANDOCERR_UPPERCASE);
 				break;
@@ -539,7 +539,7 @@ static int
 post_vs(CHKARGS)
 {
 
-	/* 
+	/*
 	 * Don't warn about this because it occurs in pod2man and would
 	 * cause considerable (unfixable) warnage.
 	 */

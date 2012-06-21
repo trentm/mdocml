@@ -76,9 +76,9 @@ static	const struct tbl_phrase keys[KEY_MAXKEYS] = {
 	{ "nospaces",	 TBL_OPT_NOSPACE,	KEY_NOSPACE},
 };
 
-static	int		 arg(struct tbl_node *, int, 
+static	int		 arg(struct tbl_node *, int,
 				const char *, int *, enum tbl_ident);
-static	void		 opt(struct tbl_node *, int, 
+static	void		 opt(struct tbl_node *, int,
 				const char *, int *);
 
 static int
@@ -93,7 +93,7 @@ arg(struct tbl_node *tbl, int ln, const char *p, int *pos, enum tbl_ident key)
 	/* Arguments always begin with a parenthesis. */
 
 	if ('(' != p[*pos]) {
-		mandoc_msg(MANDOCERR_TBL, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBL, tbl->parse,
 				ln, *pos, NULL);
 		return(0);
 	}
@@ -112,13 +112,13 @@ arg(struct tbl_node *tbl, int ln, const char *p, int *pos, enum tbl_ident key)
 			mandoc_msg(MANDOCERR_TBL, tbl->parse,
 					ln, *pos - 1, NULL);
 			return(0);
-		} 
+		}
 
 		if ('\0' == p[(*pos)++]) {
 			mandoc_msg(MANDOCERR_TBL, tbl->parse,
 					ln, *pos - 1, NULL);
 			return(0);
-		} 
+		}
 		break;
 	case (KEY_TAB):
 		if ('\0' != (tbl->opts.tab = p[(*pos)++]))
@@ -146,7 +146,7 @@ arg(struct tbl_node *tbl, int ln, const char *p, int *pos, enum tbl_ident key)
 		if ('\0' != (tbl->opts.decimal = p[(*pos)++]))
 			break;
 
-		mandoc_msg(MANDOCERR_TBL, tbl->parse, 
+		mandoc_msg(MANDOCERR_TBL, tbl->parse,
 				ln, *pos - 1, NULL);
 		return(0);
 	default:
@@ -215,7 +215,7 @@ again:	/*
 	while (isspace((unsigned char)p[*pos]))
 		(*pos)++;
 
-	/* 
+	/*
 	 * Look through all of the available keys to find one that
 	 * matches the input.  FIXME: hashtable this.
 	 */
@@ -231,7 +231,7 @@ again:	/*
 		 * of the sequence altogether.
 		 */
 
-		if (keys[i].key) 
+		if (keys[i].key)
 			tbl->opts.opts |= keys[i].key;
 		else if ( ! arg(tbl, ln, p, pos, keys[i].ident))
 			return;
@@ -239,7 +239,7 @@ again:	/*
 		break;
 	}
 
-	/* 
+	/*
 	 * Allow us to recover from bad options by continuing to another
 	 * parse sequence.
 	 */

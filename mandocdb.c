@@ -64,7 +64,7 @@
 			fprintf(stderr, ": %s", (_f)); \
 		fprintf(stderr, "\n"); \
 	} while (/* CONSTCOND */ 0)
-		
+
 /* Access to the mandoc database on disk. */
 
 struct	mdb {
@@ -123,10 +123,10 @@ enum	op {
 			  const struct mdoc_node *n, \
 			  const struct mdoc_meta *m
 
-static	void		  buf_appendmdoc(struct buf *, 
+static	void		  buf_appendmdoc(struct buf *,
 				const struct mdoc_node *, int);
 static	void		  buf_append(struct buf *, const char *);
-static	void		  buf_appendb(struct buf *, 
+static	void		  buf_appendb(struct buf *,
 				const void *, size_t);
 static	void		  dbt_put(DB *, const char *, DBT *, DBT *);
 static	void		  hash_put(DB *, const struct buf *, uint64_t);
@@ -137,12 +137,12 @@ static	void		  index_merge(const struct of *, struct mparse *,
 				const char *);
 static	void		  index_prune(const struct of *, struct mdb *,
 				struct recs *, const char *);
-static	void		  ofile_argbuild(int, char *[], 
+static	void		  ofile_argbuild(int, char *[],
 				struct of **, const char *);
 static	void		  ofile_dirbuild(const char *, const char *,
 				const char *, int, struct of **, char *);
 static	void		  ofile_free(struct of *);
-static	void		  pformatted(DB *, struct buf *, struct buf *, 
+static	void		  pformatted(DB *, struct buf *, struct buf *,
 				const struct of *, const char *);
 static	int		  pman_node(MAN_ARGS);
 static	void		  pmdoc_node(MDOC_ARGS);
@@ -410,7 +410,7 @@ main(int argc, char *argv[])
 		ofile_argbuild(argc, argv, &of, ".");
 		if (NULL == of)
 			goto out;
-		index_merge(of, mp, &dbuf, &buf, 
+		index_merge(of, mp, &dbuf, &buf,
 				hash, &mdb, &recs, ".");
 		goto out;
 	}
@@ -475,7 +475,7 @@ main(int argc, char *argv[])
 	if (argc > 0) {
 		dirs.paths = mandoc_calloc(argc, sizeof(char *));
 		dirs.sz = argc;
-		for (i = 0; i < argc; i++) 
+		for (i = 0; i < argc; i++)
 			dirs.paths[i] = mandoc_strdup(argv[i]);
 	} else
 		manpath_parse(&dirs, dir, NULL, NULL);
@@ -651,7 +651,7 @@ index_merge(const struct of *of, struct mparse *mp,
 		assert(march);
 		if (strcasecmp(march, of->arch))
 			WARNING(fn, basedir, "Architecture \"%s\" "
-				"manual in \"%s\" directory", 
+				"manual in \"%s\" directory",
 				march, of->arch);
 
 		/*
@@ -822,7 +822,7 @@ index_merge(const struct of *of, struct mparse *mp,
 		while (0 == (*files->seq)(files, &key, &val, seq)) {
 			seq = R_NEXT;
 			if (val.size)
-				WARNING((char *)val.data, basedir, 
+				WARNING((char *)val.data, basedir,
 					"Probably unreachable, title "
 					"is %s", (char *)key.data);
 		}
@@ -837,7 +837,7 @@ index_merge(const struct of *of, struct mparse *mp,
  * in `idx' (zeroing its value size).
  */
 static void
-index_prune(const struct of *ofile, struct mdb *mdb, 
+index_prune(const struct of *ofile, struct mdb *mdb,
 		struct recs *recs, const char *basedir)
 {
 	const struct of	*of;
@@ -913,7 +913,7 @@ index_prune(const struct of *ofile, struct mdb *mdb,
 		}
 
 		if (verb)
-			printf("%s: Deleting from index: %s\n", 
+			printf("%s: Deleting from index: %s\n",
 					basedir, fn);
 
 		val.size = 0;
@@ -962,8 +962,8 @@ buf_appendb(struct buf *buf, const void *cp, size_t sz)
 }
 
 /*
- * Append a nil-terminated string to the buffer.  
- * This can be invoked multiple times.  
+ * Append a nil-terminated string to the buffer.
+ * This can be invoked multiple times.
  * The buffer string will be nil-terminated.
  * If invoked multiple times, a space is put between strings.
  */
@@ -982,7 +982,7 @@ buf_append(struct buf *buf, const char *cp)
 }
 
 /*
- * Recursively add all text from a given node.  
+ * Recursively add all text from a given node.
  * This is optimised for general mdoc nodes in this context, which do
  * not consist of subexpressions and having a recursive call for n->next
  * would be wasteful.
@@ -1000,7 +1000,7 @@ buf_appendmdoc(struct buf *buf, const struct mdoc_node *n, int f)
 
 		if (MDOC_TEXT == n->type && f) {
 			f = 0;
-			buf_appendb(buf, n->string, 
+			buf_appendb(buf, n->string,
 					strlen(n->string) + 1);
 		} else if (MDOC_TEXT == n->type)
 			buf_append(buf, n->string);
@@ -1236,12 +1236,12 @@ hash_put(DB *db, const struct buf *buf, uint64_t mask)
 	}
 
 	val.data = &mask;
-	val.size = sizeof(uint64_t); 
+	val.size = sizeof(uint64_t);
 
 	if ((rc = (*db->put)(db, &key, &val, 0)) < 0) {
 		perror("hash");
 		exit((int)MANDOCLEVEL_SYSERR);
-	} 
+	}
 }
 
 static void
@@ -1253,7 +1253,7 @@ dbt_put(DB *db, const char *dbn, DBT *key, DBT *val)
 
 	if (0 == (*db->put)(db, key, val, 0))
 		return;
-	
+
 	perror(dbn);
 	exit((int)MANDOCLEVEL_SYSERR);
 	/* NOTREACHED */
@@ -1396,7 +1396,7 @@ pman_node(MAN_ARGS)
 
 			start = sv;
 
-			/* 
+			/*
 			 * Go through a special heuristic dance here.
 			 * This is why -man manuals are great!
 			 * (I'm being sarcastic: my eyes are bleeding.)
@@ -1474,7 +1474,7 @@ pman_node(MAN_ARGS)
  * By necessity, this involves rather crude guesswork.
  */
 static void
-pformatted(DB *hash, struct buf *buf, struct buf *dbuf, 
+pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 		const struct of *of, const char *basedir)
 {
 	FILE		*stream;
@@ -1511,7 +1511,7 @@ pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 	while (NULL != (line = fgetln(stream, &len)))
 		if ('\n' != *line && ' ' != *line)
 			break;
-	
+
 	/*
 	 * Read up until the next section into a buffer.
 	 * Strip the leading and trailing newline from each read line,
@@ -1545,7 +1545,7 @@ pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 	 */
 
 	if (NULL == title || '\0' == *title) {
-		WARNING(of->fname, basedir, 
+		WARNING(of->fname, basedir,
 			"Cannot find NAME section");
 		buf_appendb(dbuf, buf->cp, buf->size);
 		hash_put(hash, buf, TYPE_Nd);
@@ -1567,7 +1567,7 @@ pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 		for (p += 2; ' ' == *p || '\b' == *p; p++)
 			/* Skip to next word. */ ;
 	} else {
-		WARNING(of->fname, basedir, 
+		WARNING(of->fname, basedir,
 			"No dash in title line");
 		p = title;
 	}
@@ -1581,7 +1581,7 @@ pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 		if (0 == len) {
 			memmove(line, line + 1, plen--);
 			continue;
-		} 
+		}
 		memmove(line - 1, line + 1, plen - len);
 		plen -= 2;
 	}
@@ -1595,7 +1595,7 @@ pformatted(DB *hash, struct buf *buf, struct buf *dbuf,
 }
 
 static void
-ofile_argbuild(int argc, char *argv[], 
+ofile_argbuild(int argc, char *argv[],
 		struct of **of, const char *basedir)
 {
 	char		 buf[MAXPATHLEN];
@@ -1646,7 +1646,7 @@ ofile_argbuild(int argc, char *argv[],
 			break;
 		}
 		if ('\0' == *title) {
-			WARNING(argv[i], basedir, 
+			WARNING(argv[i], basedir,
 				"Cannot deduce title from filename");
 			title = buf;
 		}
@@ -1760,7 +1760,7 @@ ofile_dirbuild(const char *dir, const char* psec, const char *parch,
 				continue;
 			}
 
-			ofile_dirbuild(buf, sec, arch, 
+			ofile_dirbuild(buf, sec, arch,
 					src_form, of, basedir);
 
 			p = strrchr(basedir, '/');

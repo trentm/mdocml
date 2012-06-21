@@ -52,7 +52,7 @@ static	void		  print_mdoc(MDOC_ARGS);
 static	void		  print_mdoc_head(MDOC_ARGS);
 static	void		  print_mdoc_node(MDOC_ARGS);
 static	void		  print_mdoc_nodelist(MDOC_ARGS);
-static	void	  	  synopsis_pre(struct html *, 
+static	void	  	  synopsis_pre(struct html *,
 				const struct mdoc_node *);
 
 static	void		  a2width(const char *, struct roffsu *);
@@ -125,8 +125,8 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{NULL, NULL}, /* Dt */
 	{NULL, NULL}, /* Os */
 	{mdoc_sh_pre, NULL }, /* Sh */
-	{mdoc_ss_pre, NULL }, /* Ss */ 
-	{mdoc_pp_pre, NULL}, /* Pp */ 
+	{mdoc_ss_pre, NULL }, /* Ss */
+	{mdoc_pp_pre, NULL}, /* Pp */
 	{mdoc_d1_pre, NULL}, /* D1 */
 	{mdoc_d1_pre, NULL}, /* Dl */
 	{mdoc_bd_pre, NULL}, /* Bd */
@@ -134,32 +134,32 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{mdoc_bl_pre, NULL}, /* Bl */
 	{NULL, NULL}, /* El */
 	{mdoc_it_pre, NULL}, /* It */
-	{mdoc_ad_pre, NULL}, /* Ad */ 
+	{mdoc_ad_pre, NULL}, /* Ad */
 	{mdoc_an_pre, NULL}, /* An */
 	{mdoc_ar_pre, NULL}, /* Ar */
 	{mdoc_cd_pre, NULL}, /* Cd */
 	{mdoc_fl_pre, NULL}, /* Cm */
-	{mdoc_dv_pre, NULL}, /* Dv */ 
-	{mdoc_er_pre, NULL}, /* Er */ 
-	{mdoc_ev_pre, NULL}, /* Ev */ 
+	{mdoc_dv_pre, NULL}, /* Dv */
+	{mdoc_er_pre, NULL}, /* Er */
+	{mdoc_ev_pre, NULL}, /* Ev */
 	{mdoc_ex_pre, NULL}, /* Ex */
-	{mdoc_fa_pre, NULL}, /* Fa */ 
-	{mdoc_fd_pre, NULL}, /* Fd */ 
+	{mdoc_fa_pre, NULL}, /* Fa */
+	{mdoc_fd_pre, NULL}, /* Fd */
 	{mdoc_fl_pre, NULL}, /* Fl */
-	{mdoc_fn_pre, NULL}, /* Fn */ 
-	{mdoc_ft_pre, NULL}, /* Ft */ 
-	{mdoc_ic_pre, NULL}, /* Ic */ 
-	{mdoc_in_pre, NULL}, /* In */ 
+	{mdoc_fn_pre, NULL}, /* Fn */
+	{mdoc_ft_pre, NULL}, /* Ft */
+	{mdoc_ic_pre, NULL}, /* Ic */
+	{mdoc_in_pre, NULL}, /* In */
 	{mdoc_li_pre, NULL}, /* Li */
-	{mdoc_nd_pre, NULL}, /* Nd */ 
-	{mdoc_nm_pre, NULL}, /* Nm */ 
+	{mdoc_nd_pre, NULL}, /* Nd */
+	{mdoc_nm_pre, NULL}, /* Nm */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Op */
 	{NULL, NULL}, /* Ot */
 	{mdoc_pa_pre, NULL}, /* Pa */
 	{mdoc_rv_pre, NULL}, /* Rv */
-	{NULL, NULL}, /* St */ 
+	{NULL, NULL}, /* St */
 	{mdoc_va_pre, NULL}, /* Va */
-	{mdoc_vt_pre, NULL}, /* Vt */ 
+	{mdoc_vt_pre, NULL}, /* Vt */
 	{mdoc_xr_pre, NULL}, /* Xr */
 	{mdoc__x_pre, mdoc__x_post}, /* %A */
 	{mdoc__x_pre, mdoc__x_post}, /* %B */
@@ -177,7 +177,7 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{mdoc_quote_pre, mdoc_quote_post}, /* Aq */
 	{NULL, NULL}, /* At */
 	{NULL, NULL}, /* Bc */
-	{mdoc_bf_pre, NULL}, /* Bf */ 
+	{mdoc_bf_pre, NULL}, /* Bf */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Bo */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Bq */
 	{mdoc_xx_pre, NULL}, /* Bsx */
@@ -188,7 +188,7 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{mdoc_quote_pre, mdoc_quote_post}, /* Dq */
 	{NULL, NULL}, /* Ec */ /* FIXME: no space */
 	{NULL, NULL}, /* Ef */
-	{mdoc_em_pre, NULL}, /* Em */ 
+	{mdoc_em_pre, NULL}, /* Em */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Eo */
 	{mdoc_xx_pre, NULL}, /* Fx */
 	{mdoc_ms_pre, NULL}, /* Ms */
@@ -209,15 +209,15 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{NULL, NULL}, /* Sc */
 	{mdoc_quote_pre, mdoc_quote_post}, /* So */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Sq */
-	{mdoc_sm_pre, NULL}, /* Sm */ 
+	{mdoc_sm_pre, NULL}, /* Sm */
 	{mdoc_sx_pre, NULL}, /* Sx */
 	{mdoc_sy_pre, NULL}, /* Sy */
 	{NULL, NULL}, /* Tn */
 	{mdoc_xx_pre, NULL}, /* Ux */
 	{NULL, NULL}, /* Xc */
 	{NULL, NULL}, /* Xo */
-	{mdoc_fo_pre, mdoc_fo_post}, /* Fo */ 
-	{NULL, NULL}, /* Fc */ 
+	{mdoc_fo_pre, mdoc_fo_post}, /* Fo */
+	{NULL, NULL}, /* Fc */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Oo */
 	{NULL, NULL}, /* Oc */
 	{mdoc_bk_pre, mdoc_bk_post}, /* Bk */
@@ -227,21 +227,21 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{NULL, NULL}, /* Fr */
 	{mdoc_ud_pre, NULL}, /* Ud */
 	{mdoc_lb_pre, NULL}, /* Lb */
-	{mdoc_pp_pre, NULL}, /* Lp */ 
-	{mdoc_lk_pre, NULL}, /* Lk */ 
-	{mdoc_mt_pre, NULL}, /* Mt */ 
-	{mdoc_quote_pre, mdoc_quote_post}, /* Brq */ 
-	{mdoc_quote_pre, mdoc_quote_post}, /* Bro */ 
-	{NULL, NULL}, /* Brc */ 
-	{mdoc__x_pre, mdoc__x_post}, /* %C */ 
+	{mdoc_pp_pre, NULL}, /* Lp */
+	{mdoc_lk_pre, NULL}, /* Lk */
+	{mdoc_mt_pre, NULL}, /* Mt */
+	{mdoc_quote_pre, mdoc_quote_post}, /* Brq */
+	{mdoc_quote_pre, mdoc_quote_post}, /* Bro */
+	{NULL, NULL}, /* Brc */
+	{mdoc__x_pre, mdoc__x_post}, /* %C */
 	{NULL, NULL}, /* Es */  /* TODO */
 	{NULL, NULL}, /* En */  /* TODO */
-	{mdoc_xx_pre, NULL}, /* Dx */ 
-	{mdoc__x_pre, mdoc__x_post}, /* %Q */ 
+	{mdoc_xx_pre, NULL}, /* Dx */
+	{mdoc__x_pre, mdoc__x_post}, /* %Q */
 	{mdoc_sp_pre, NULL}, /* br */
-	{mdoc_sp_pre, NULL}, /* sp */ 
-	{mdoc__x_pre, mdoc__x_post}, /* %U */ 
-	{NULL, NULL}, /* Ta */ 
+	{mdoc_sp_pre, NULL}, /* sp */
+	{mdoc__x_pre, mdoc__x_post}, /* %U */
+	{NULL, NULL}, /* Ta */
 };
 
 static	const char * const lists[LIST_MAX] = {
@@ -294,9 +294,9 @@ synopsis_pre(struct html *h, const struct mdoc_node *n)
 	if (NULL == n->prev || ! (MDOC_SYNPRETTY & n->flags))
 		return;
 
-	if (n->prev->tok == n->tok && 
-			MDOC_Fo != n->tok && 
-			MDOC_Ft != n->tok && 
+	if (n->prev->tok == n->tok &&
+			MDOC_Fo != n->tok &&
+			MDOC_Ft != n->tok &&
 			MDOC_Fn != n->tok) {
 		print_otag(h, TAG_BR, 0, NULL);
 		return;
@@ -365,7 +365,7 @@ print_mdoc(MDOC_ARGS)
 		print_tagq(h, tt);
 		print_otag(h, TAG_BODY, 0, NULL);
 		print_otag(h, TAG_DIV, 1, &tag);
-	} else 
+	} else
 		t = print_otag(h, TAG_DIV, 1, &tag);
 
 	print_mdoc_nodelist(m, n, h);
@@ -739,8 +739,8 @@ mdoc_xr_pre(MDOC_ARGS)
 	PAIR_CLASS_INIT(&tag[0], "link-man");
 
 	if (h->base_man) {
-		buffmt_man(h, n->child->string, 
-				n->child->next ? 
+		buffmt_man(h, n->child->string,
+				n->child->next ?
 				n->child->next->string : NULL);
 		PAIR_HREF_INIT(&tag[1], h->buf);
 		print_otag(h, TAG_A, 2, tag);
@@ -1144,7 +1144,7 @@ mdoc_d1_pre(MDOC_ARGS)
 	if (MDOC_Dl == n->tok) {
 		PAIR_CLASS_INIT(&tag[0], "lit");
 		print_otag(h, TAG_CODE, 1, tag);
-	} 
+	}
 
 	return(1);
 }
@@ -1204,12 +1204,12 @@ mdoc_bd_pre(MDOC_ARGS)
 	SCALE_HS_INIT(&su, 0);
 	if (n->norm->Bd.offs)
 		a2offs(n->norm->Bd.offs, &su);
-	
+
 	bufinit(h);
 	bufcat_su(h, "margin-left", &su);
 	PAIR_STYLE_INIT(&tag[0], h);
 
-	if (DISP_unfilled != n->norm->Bd.type && 
+	if (DISP_unfilled != n->norm->Bd.type &&
 			DISP_literal != n->norm->Bd.type) {
 		PAIR_CLASS_INIT(&tag[1], "display");
 		print_otag(h, TAG_DIV, 2, tag);
@@ -1416,7 +1416,7 @@ mdoc_fd_pre(MDOC_ARGS)
 
 	if (NULL != (n = n->next)) {
 		assert(MDOC_TEXT == n->type);
-		strlcpy(buf, '<' == *n->string || '"' == *n->string ? 
+		strlcpy(buf, '<' == *n->string || '"' == *n->string ?
 				n->string + 1 : n->string, BUFSIZ);
 
 		sz = strlen(buf);
@@ -1424,13 +1424,13 @@ mdoc_fd_pre(MDOC_ARGS)
 			buf[sz - 1] = '\0';
 
 		PAIR_CLASS_INIT(&tag[0], "link-includes");
-		
+
 		i = 1;
 		if (h->base_includes) {
 			buffmt_includes(h, buf);
 			PAIR_HREF_INIT(&tag[i], h->buf);
 			i++;
-		} 
+		}
 
 		t = print_otag(h, TAG_A, i, tag);
 		print_text(h, n->string);
@@ -1502,7 +1502,7 @@ mdoc_fn_pre(MDOC_ARGS)
 	if (NULL != ep) {
 		PAIR_CLASS_INIT(&tag[0], "ftype");
 		t = print_otag(h, TAG_I, 1, tag);
-	
+
 		while (ep) {
 			sz = MIN((int)(ep - sp), BUFSIZ - 1);
 			(void)memcpy(nbuf, sp, (size_t)sz);
@@ -1582,7 +1582,7 @@ mdoc_sm_pre(MDOC_ARGS)
 
 	assert(n->child && MDOC_TEXT == n->child->type);
 	if (0 == strcmp("on", n->child->string)) {
-		/* 
+		/*
 		 * FIXME: no p->col to check.  Thus, if we have
 		 *  .Bd -literal
 		 *  .Sm off
@@ -1685,7 +1685,7 @@ mdoc_mt_pre(MDOC_ARGS)
 		print_text(h, n->string);
 		print_tagq(h, t);
 	}
-	
+
 	return(0);
 }
 
@@ -1770,7 +1770,7 @@ mdoc_in_pre(MDOC_ARGS)
 			buffmt_includes(h, n->string);
 			PAIR_HREF_INIT(&tag[i], h->buf);
 			i++;
-		} 
+		}
 
 		t = print_otag(h, TAG_A, i, tag);
 		print_text(h, n->string);
@@ -1871,7 +1871,7 @@ mdoc_va_pre(MDOC_ARGS)
 static int
 mdoc_ap_pre(MDOC_ARGS)
 {
-	
+
 	h->flags |= HTML_NOSPACE;
 	print_text(h, "\\(aq");
 	h->flags |= HTML_NOSPACE;
@@ -1891,18 +1891,18 @@ mdoc_bf_pre(MDOC_ARGS)
 	else if (MDOC_BODY != n->type)
 		return(1);
 
-	if (FONT_Em == n->norm->Bf.font) 
+	if (FONT_Em == n->norm->Bf.font)
 		PAIR_CLASS_INIT(&tag[0], "emph");
-	else if (FONT_Sy == n->norm->Bf.font) 
+	else if (FONT_Sy == n->norm->Bf.font)
 		PAIR_CLASS_INIT(&tag[0], "symb");
-	else if (FONT_Li == n->norm->Bf.font) 
+	else if (FONT_Li == n->norm->Bf.font)
 		PAIR_CLASS_INIT(&tag[0], "lit");
 	else
 		PAIR_CLASS_INIT(&tag[0], "none");
 
-	/* 
+	/*
 	 * We want this to be inline-formatted, but needs to be div to
-	 * accept block children. 
+	 * accept block children.
 	 */
 	bufinit(h);
 	bufcat_style(h, "display", "inline");
@@ -2280,5 +2280,3 @@ mdoc_quote_post(MDOC_ARGS)
 		/* NOTREACHED */
 	}
 }
-
-

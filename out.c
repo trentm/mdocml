@@ -38,7 +38,7 @@ static	void	tblcalc_literal(struct rofftbl *, struct roffcol *,
 static	void	tblcalc_number(struct rofftbl *, struct roffcol *,
 			const struct tbl *, const struct tbl_dat *);
 
-/* 
+/*
  * Convert a `scaling unit' to a consistent form, or fail.  Scaling
  * units are documented in groff.7, mdoc.7, man.7.
  */
@@ -179,9 +179,9 @@ tblcalc(struct rofftbl *tbl, const struct tbl_span *sp)
 		}
 	}
 
-	/* 
+	/*
 	 * Calculate width of the spanners.  These get one space for a
-	 * vertical line, two for a double-vertical line. 
+	 * vertical line, two for a double-vertical line.
 	 */
 
 	for ( ; hp; hp = hp->next) {

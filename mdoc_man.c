@@ -207,7 +207,7 @@ print_word(struct mman *mm, const char *s)
 {
 
 	if (mm->need_nl) {
-		/* 
+		/*
 		 * If we need a newline, print it now and start afresh.
 		 */
 		putchar('\n');
@@ -227,7 +227,7 @@ print_word(struct mman *mm, const char *s)
 	 * Reassign needing space if we're not following opening
 	 * punctuation.
 	 */
-	mm->need_space = 
+	mm->need_space =
 		('(' != s[0] && '[' != s[0]) || '\0' != s[1];
 
 	for ( ; *s; s++) {
@@ -284,7 +284,7 @@ print_node(DECL_ARGS)
 	const struct mdoc_node	*prev, *sub;
 	const struct manact	*act;
 	int			 cond, do_sub;
-	
+
 	/*
 	 * Break the line if we were parsed subsequent the current node.
 	 * This makes the page structure be more consistent.
@@ -302,7 +302,7 @@ print_node(DECL_ARGS)
 		 * Make sure that we don't happen to start with a
 		 * control character at the start of a line.
 		 */
-		if (mm->need_nl && ('.' == *n->string || 
+		if (mm->need_nl && ('.' == *n->string ||
 					'\'' == *n->string)) {
 			print_word(mm, "\\&");
 			mm->need_space = 0;
@@ -319,7 +319,7 @@ print_node(DECL_ARGS)
 			do_sub = (*act->pre)(m, n, mm);
 	}
 
-	/* 
+	/*
 	 * Conditionally run all child nodes.
 	 * Note that this iterates over children instead of using
 	 * recursion.  This prevents unnecessary depth in the stack.
@@ -383,7 +383,7 @@ post_enc(DECL_ARGS)
 
 /*
  * Used in listings (percent = %A, e.g.).
- * FIXME: this is incomplete. 
+ * FIXME: this is incomplete.
  * It doesn't print a nice ", and" for lists.
  */
 static void

@@ -52,7 +52,7 @@ struct	htmlman {
 	int		(*post)(MAN_ARGS);
 };
 
-static	void		  print_bvspace(struct html *, 
+static	void		  print_bvspace(struct html *,
 				const struct man_node *);
 static	void		  print_man(MAN_ARGS);
 static	void		  print_man_head(MAN_ARGS);
@@ -88,7 +88,7 @@ static	const struct htmlman mans[MAN_MAX] = {
 	{ man_PP_pre, NULL }, /* PP */
 	{ man_PP_pre, NULL }, /* P */
 	{ man_IP_pre, NULL }, /* IP */
-	{ man_HP_pre, NULL }, /* HP */ 
+	{ man_HP_pre, NULL }, /* HP */
 	{ man_SM_pre, NULL }, /* SM */
 	{ man_SM_pre, NULL }, /* SB */
 	{ man_alt_pre, NULL }, /* BI */
@@ -149,7 +149,7 @@ html_man(void *arg, const struct man *m)
 }
 
 static void
-print_man(MAN_ARGS) 
+print_man(MAN_ARGS)
 {
 	struct tag	*t, *tt;
 	struct htmlpair	 tag;
@@ -164,7 +164,7 @@ print_man(MAN_ARGS)
 		print_tagq(h, tt);
 		print_otag(h, TAG_BODY, 0, NULL);
 		print_otag(h, TAG_DIV, 1, &tag);
-	} else 
+	} else
 		t = print_otag(h, TAG_DIV, 1, &tag);
 
 	print_man_nodelist(m, n, mh, h);
@@ -239,7 +239,7 @@ print_man_node(MAN_ARGS)
 		print_tbl(h, n->span);
 		return;
 	default:
-		/* 
+		/*
 		 * Close out scope of font prior to opening a macro
 		 * scope.
 		 */
@@ -431,7 +431,7 @@ man_alt_pre(MAN_ARGS)
 	enum htmltag	 fp;
 	struct tag	*t;
 
-	if ((savelit = mh->fl & MANH_LITERAL)) 
+	if ((savelit = mh->fl & MANH_LITERAL))
 		print_otag(h, TAG_BR, 0, NULL);
 
 	mh->fl &= ~MANH_LITERAL;
@@ -484,7 +484,7 @@ man_alt_pre(MAN_ARGS)
 static int
 man_SM_pre(MAN_ARGS)
 {
-	
+
 	print_otag(h, TAG_SMALL, 0, NULL);
 	if (MAN_SB == n->tok)
 		print_otag(h, TAG_B, 0, NULL);
@@ -528,7 +528,7 @@ man_IP_pre(MAN_ARGS)
 {
 	const struct man_node	*nn;
 
-	if (MAN_BODY == n->type) { 
+	if (MAN_BODY == n->type) {
 		print_otag(h, TAG_DD, 0, NULL);
 		return(1);
 	} else if (MAN_HEAD != n->type) {
@@ -628,7 +628,7 @@ man_B_pre(MAN_ARGS)
 static int
 man_I_pre(MAN_ARGS)
 {
-	
+
 	print_otag(h, TAG_I, 0, NULL);
 	return(1);
 }
