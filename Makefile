@@ -55,7 +55,7 @@ INSTALL_MAN	 = $(INSTALL_DATA)
 # Non-BSD systems (Linux, etc.) need -ldb to compile mandocdb and
 # apropos.
 # However, if you don't have -ldb at all (or it's not native), then
-# comment out apropos and mandocdb. 
+# comment out apropos and mandocdb.
 #
 #DBLIB		 = -ldb
 DBBIN		 = apropos mandocdb man.cgi catman whatis
@@ -432,6 +432,26 @@ www: index.html
 
 lint: llib-lmandoc.ln llib-lpreconv.ln llib-ldemandoc.ln $(DBLN)
 
+TIDY := "/Applications/Komodo IDE.app/Contents/SharedSupport/html/tidy"
+html5compare: mandoc
+	#./mandoc -Thtml -Ostyle=style.css preconv.1 > preconv.1.html
+	#./mandoc -Thtml5 -Ostyle=style.css preconv.1 > preconv.1.html5
+	# TODO: mandoc.3
+	./mandoc -Thtml -Ostyle=foo.css preconv.1 > preconv.1.html
+	./mandoc -Thtml5 -Ostyle=foo.css preconv.1 > a-preconv.html
+	@echo "-- diff"
+	diff -u preconv.1.html a-preconv.html || true
+	@echo ""
+	@echo "-- tidy"
+	#TODO: this breaks html5 doctype (http://tidy.sourceforge.net/docs/quickref.html#doctype)
+	$(TIDY) -q -i -w 0 -o b-preconv.html a-preconv.html || true
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo "-- diff to last"
+	diff -u a-preconv.html.last a-preconv.html || true
+
 clean:
 	rm -f libmandoc.a $(LIBMANDOC_OBJS)
 	rm -f llib-llibmandoc.ln $(LIBMANDOC_LNS)
@@ -454,9 +474,9 @@ clean:
 	rm -f index.html $(INDEX_OBJS)
 	rm -rf test-fgetln.dSYM
 	rm -rf test-strlcpy.dSYM
-	rm -rf test-strlcat.dSYM 
-	rm -rf test-strptime.dSYM 
-	rm -rf test-mmap.dSYM 
+	rm -rf test-strlcat.dSYM
+	rm -rf test-strptime.dSYM
+	rm -rf test-mmap.dSYM
 	rm -rf test-getsubopt.dSYM
 	rm -rf apropos.dSYM
 	rm -rf catman.dSYM

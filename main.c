@@ -48,6 +48,7 @@ enum	outt {
 	OUTT_TREE,	/* -Ttree */
 	OUTT_MAN,	/* -Tman */
 	OUTT_HTML,	/* -Thtml */
+	OUTT_HTML5,	/* -Thtml5 */
 	OUTT_XHTML,	/* -Txhtml */
 	OUTT_LINT,	/* -Tlint */
 	OUTT_PS,	/* -Tps */
@@ -221,6 +222,10 @@ parse(struct curparse *curp, int fd,
 			curp->outdata = html_alloc(curp->outopts);
 			curp->outfree = html_free;
 			break;
+		case (OUTT_HTML5):
+			curp->outdata = html5_alloc(curp->outopts);
+			curp->outfree = html_free;
+			break;
 		case (OUTT_UTF8):
 			curp->outdata = utf8_alloc(curp->outopts);
 			curp->outfree = ascii_free;
@@ -247,6 +252,8 @@ parse(struct curparse *curp, int fd,
 
 		switch (curp->outtype) {
 		case (OUTT_HTML):
+			/* FALLTHROUGH */
+		case (OUTT_HTML5):
 			/* FALLTHROUGH */
 		case (OUTT_XHTML):
 			curp->outman = html_man;
@@ -327,6 +334,8 @@ toptions(struct curparse *curp, char *arg)
 		curp->outtype = OUTT_MAN;
 	else if (0 == strcmp(arg, "html"))
 		curp->outtype = OUTT_HTML;
+	else if (0 == strcmp(arg, "html5"))
+		curp->outtype = OUTT_HTML5;
 	else if (0 == strcmp(arg, "utf8"))
 		curp->outtype = OUTT_UTF8;
 	else if (0 == strcmp(arg, "locale"))

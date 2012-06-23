@@ -26,3 +26,8 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
     make mandoc
     ./mandoc -Thtml -Ostyle=style.css preconv.1 > preconv.1.html
+    ./mandoc -Thtml5 -Ostyle=style.css preconv.1 > preconv.1.html5
+    diff -u preconv.1.html preconv.1.html5
+
+
+https://github.com/h5bp/html5-boilerplate/blob/master/index.html

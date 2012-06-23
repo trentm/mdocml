@@ -47,7 +47,9 @@ enum	htmltag {
 	TAG_P,
 	TAG_PRE,
 	TAG_B,
+	TAG_STRONG,
 	TAG_I,
+	TAG_EM,
 	TAG_CODE,
 	TAG_SMALL,
 	TAG_MAX
@@ -106,6 +108,7 @@ struct	htmlpair {
 
 enum	htmltype {
 	HTML_HTML_4_01_STRICT,
+	HTML_HTML_5,
 	HTML_XHTML_1_0_STRICT
 };
 

@@ -42,6 +42,7 @@ struct	htmldata {
 #define	HTML_CLRLINE	 (1 << 0)
 #define	HTML_NOSTACK	 (1 << 1)
 #define	HTML_AUTOCLOSE	 (1 << 2) /* Tag has auto-closure. */
+#define	HTML_CCLRLINE	 (1 << 3) /* Clear line only for close tag. */
 };
 
 static	const struct htmldata htmltags[TAG_MAX] = {
@@ -49,10 +50,10 @@ static	const struct htmldata htmltags[TAG_MAX] = {
 	{"head",	HTML_CLRLINE}, /* TAG_HEAD */
 	{"body",	HTML_CLRLINE}, /* TAG_BODY */
 	{"meta",	HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_META */
-	{"title",	HTML_CLRLINE}, /* TAG_TITLE */
+	{"title",	HTML_CCLRLINE}, /* TAG_TITLE */
 	{"div",		HTML_CLRLINE}, /* TAG_DIV */
-	{"h1",		0}, /* TAG_H1 */
-	{"h2",		0}, /* TAG_H2 */
+	{"h1",		HTML_CCLRLINE}, /* TAG_H1 */
+	{"h2",		HTML_CCLRLINE}, /* TAG_H2 */
 	{"span",	0}, /* TAG_SPAN */
 	{"link",	HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_LINK */
 	{"br",		HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_BR */
@@ -61,18 +62,20 @@ static	const struct htmldata htmltags[TAG_MAX] = {
 	{"tbody",	HTML_CLRLINE}, /* TAG_TBODY */
 	{"col",		HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_COL */
 	{"tr",		HTML_CLRLINE}, /* TAG_TR */
-	{"td",		HTML_CLRLINE}, /* TAG_TD */
+	{"td",		HTML_CCLRLINE}, /* TAG_TD */
 	{"li",		HTML_CLRLINE}, /* TAG_LI */
 	{"ul",		HTML_CLRLINE}, /* TAG_UL */
 	{"ol",		HTML_CLRLINE}, /* TAG_OL */
 	{"dl",		HTML_CLRLINE}, /* TAG_DL */
-	{"dt",		HTML_CLRLINE}, /* TAG_DT */
+	{"dt",		HTML_CCLRLINE}, /* TAG_DT */
 	{"dd",		HTML_CLRLINE}, /* TAG_DD */
 	{"blockquote",	HTML_CLRLINE}, /* TAG_BLOCKQUOTE */
-	{"p",		HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_P */
-	{"pre",		HTML_CLRLINE }, /* TAG_PRE */
+	{"p",		HTML_CCLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_P */
+	{"pre",		HTML_CCLRLINE }, /* TAG_PRE */
 	{"b",		0 }, /* TAG_B */
+	{"strong",	0 }, /* TAG_STRONG */
 	{"i",		0 }, /* TAG_I */
+	{"em",		0 }, /* TAG_EM */
 	{"code",	0 }, /* TAG_CODE */
 	{"small",	0 }, /* TAG_SMALL */
 };
@@ -159,6 +162,14 @@ html_alloc(char *outopts)
 {
 
 	return(ml_alloc(outopts, HTML_HTML_4_01_STRICT));
+}
+
+
+void *
+html5_alloc(char *outopts)
+{
+
+	return(ml_alloc(outopts, HTML_HTML_5));
 }
 
 
@@ -465,7 +476,7 @@ print_ctag(struct html *h, enum htmltag tag)
 {
 
 	printf("</%s>", htmltags[tag].name);
-	if (HTML_CLRLINE & htmltags[tag].flags) {
+	if ((HTML_CLRLINE | HTML_CCLRLINE) & htmltags[tag].flags) {
 		h->flags |= HTML_NOSPACE;
 		putchar('\n');
 	}
@@ -483,17 +494,21 @@ print_gen_decls(struct html *h)
 		name = "HTML";
 		doctype = "-//W3C//DTD HTML 4.01//EN";
 		dtd = "http://www.w3.org/TR/html4/strict.dtd";
+		printf("<!DOCTYPE %s PUBLIC \"%s\" \"%s\">\n",
+				name, doctype, dtd);
+		break;
+	case (HTML_HTML_5):
+		puts("<!DOCTYPE html>");
 		break;
 	default:
 		puts("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		name = "html";
 		doctype = "-//W3C//DTD XHTML 1.0 Strict//EN";
 		dtd = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
+		printf("<!DOCTYPE %s PUBLIC \"%s\" \"%s\">\n",
+				name, doctype, dtd);
 		break;
 	}
-
-	printf("<!DOCTYPE %s PUBLIC \"%s\" \"%s\">\n",
-			name, doctype, dtd);
 }
 
 void
