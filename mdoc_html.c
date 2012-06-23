@@ -298,7 +298,6 @@ synopsis_pre(struct html *h, const struct mdoc_node *n)
 			MDOC_Fo != n->tok &&
 			MDOC_Ft != n->tok &&
 			MDOC_Fn != n->tok) {
-		print_otag(h, TAG_BR, 0, NULL);
 		return;
 	}
 
@@ -673,8 +672,6 @@ static int
 mdoc_nm_pre(MDOC_ARGS)
 {
 	struct htmlpair	 tag;
-	struct roffsu	 su;
-	int		 len;
 
 	switch (n->type) {
 	case (MDOC_ELEM):
@@ -685,12 +682,12 @@ mdoc_nm_pre(MDOC_ARGS)
 			print_text(h, m->name);
 		return(1);
 	case (MDOC_HEAD):
-		print_otag(h, TAG_TD, 0, NULL);
+		print_otag(h, TAG_SPAN, 0, NULL);
 		if (NULL == n->child && m->name)
 			print_text(h, m->name);
 		return(1);
 	case (MDOC_BODY):
-		print_otag(h, TAG_TD, 0, NULL);
+		print_otag(h, TAG_SPAN, 0, NULL);
 		return(1);
 	default:
 		break;
@@ -698,17 +695,8 @@ mdoc_nm_pre(MDOC_ARGS)
 
 	synopsis_pre(h, n);
 	PAIR_CLASS_INIT(&tag, "synopsis");
-	print_otag(h, TAG_TABLE, 1, &tag);
+	print_otag(h, TAG_DIV, 1, &tag);
 
-	for (len = 0, n = n->child; n; n = n->next)
-		if (MDOC_TEXT == n->type)
-			len += html_strlen(n->string);
-
-	if (0 == len && m->name)
-		len = html_strlen(m->name);
-
-	print_otag(h, TAG_TBODY, 0, NULL);
-	print_otag(h, TAG_TR, 0, NULL);
 	return(1);
 }
 
