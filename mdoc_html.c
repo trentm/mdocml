@@ -492,23 +492,25 @@ print_mdoc_node(MDOC_ARGS)
 static void
 mdoc_root_post(MDOC_ARGS)
 {
-	struct htmlpair	 tag;
+	struct htmlpair	 tag[2];
 	struct tag	*t, *tt;
 
-	PAIR_CLASS_INIT(&tag, "foot");
-	t = print_otag(h, TAG_TABLE, 1, &tag);
+	PAIR_CLASS_INIT(&tag[0], "foot");
+	PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
+	t = print_otag(h, TAG_TABLE, 2, tag);
 
 	print_otag(h, TAG_TBODY, 0, NULL);
 
 	tt = print_otag(h, TAG_TR, 0, NULL);
 
-	PAIR_CLASS_INIT(&tag, "foot-date");
-	print_otag(h, TAG_TD, 1, &tag);
+	PAIR_CLASS_INIT(&tag[0], "foot-date");
+	print_otag(h, TAG_TD, 1, tag);
 	print_text(h, m->date);
 	print_stagq(h, tt);
 
-	PAIR_CLASS_INIT(&tag, "foot-os");
-	print_otag(h, TAG_TD, 1, &tag);
+	PAIR_CLASS_INIT(&tag[0], "foot-os");
+	PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
+	print_otag(h, TAG_TD, 2, tag);
 	print_text(h, m->os);
 	print_tagq(h, t);
 }
@@ -532,12 +534,9 @@ mdoc_root_pre(MDOC_ARGS)
 
 	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
 
-	//PAIR_SUMMARY_INIT(&tag[0], "Document Header");
-	//PAIR_CLASS_INIT(&tag[1], "head");
-	//PAIR_INIT(&tag[2], ATTR_WIDTH, "100%");
-	//t = print_otag(h, TAG_TABLE, 3, tag);
 	PAIR_CLASS_INIT(&tag[0], "head");
-	t = print_otag(h, TAG_TABLE, 1, tag);
+	PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
+	t = print_otag(h, TAG_TABLE, 2, tag);
 
 	print_otag(h, TAG_TBODY, 0, NULL);
 
