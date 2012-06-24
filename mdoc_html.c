@@ -108,6 +108,7 @@ static	int		  mdoc_quote_pre(MDOC_ARGS);
 static	int		  mdoc_rs_pre(MDOC_ARGS);
 static	int		  mdoc_rv_pre(MDOC_ARGS);
 static	int		  mdoc_sh_pre(MDOC_ARGS);
+static	int		  mdoc_sh_post(MDOC_ARGS);
 static	int		  mdoc_sm_pre(MDOC_ARGS);
 static	int		  mdoc_sp_pre(MDOC_ARGS);
 static	int		  mdoc_ss_pre(MDOC_ARGS);
@@ -124,7 +125,7 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{NULL, NULL}, /* Dd */
 	{NULL, NULL}, /* Dt */
 	{NULL, NULL}, /* Os */
-	{mdoc_sh_pre, NULL }, /* Sh */
+	{mdoc_sh_pre, mdoc_sh_post}, /* Sh */
 	{mdoc_ss_pre, NULL }, /* Ss */
 	{mdoc_pp_pre, NULL}, /* Pp */
 	{mdoc_d1_pre, NULL}, /* D1 */
@@ -595,6 +596,17 @@ mdoc_sh_pre(MDOC_ARGS)
 
 /* ARGSUSED */
 static int
+mdoc_sh_post(MDOC_ARGS)
+{
+	if (MDOC_HEAD != n->type)
+		return(1);
+	print_otag(h, TAG_P, 0, NULL);
+
+	return(1);
+}
+
+/* ARGSUSED */
+static int
 mdoc_ss_pre(MDOC_ARGS)
 {
 	struct htmlpair	 tag;
@@ -1051,7 +1063,7 @@ mdoc_ex_pre(MDOC_ARGS)
 	for (n = n->child; n; n = n->next) {
 		assert(MDOC_TEXT == n->type);
 
-		t = print_otag(h, TAG_B, 1, &tag);
+		t = print_otag(h, TAG_STRONG, 1, &tag);
 		print_text(h, n->string);
 		print_tagq(h, t);
 
@@ -1121,7 +1133,7 @@ mdoc_sx_pre(MDOC_ARGS)
 	PAIR_CLASS_INIT(&tag[0], "link-sec");
 	PAIR_HREF_INIT(&tag[1], h->buf);
 
-	print_otag(h, TAG_I, 1, tag);
+	print_otag(h, TAG_EM, 1, tag);
 	print_otag(h, TAG_A, 2, tag);
 	return(1);
 }
@@ -1227,7 +1239,7 @@ mdoc_pa_pre(MDOC_ARGS)
 	struct htmlpair	tag;
 
 	PAIR_CLASS_INIT(&tag, "file");
-	print_otag(h, TAG_I, 1, &tag);
+	print_otag(h, TAG_EM, 1, &tag);
 	return(1);
 }
 
@@ -1239,7 +1251,7 @@ mdoc_ad_pre(MDOC_ARGS)
 	struct htmlpair	tag;
 
 	PAIR_CLASS_INIT(&tag, "addr");
-	print_otag(h, TAG_I, 1, &tag);
+	print_otag(h, TAG_EM, 1, &tag);
 	return(1);
 }
 
@@ -1317,12 +1329,12 @@ mdoc_fa_pre(MDOC_ARGS)
 
 	PAIR_CLASS_INIT(&tag, "farg");
 	if (n->parent->tok != MDOC_Fo) {
-		print_otag(h, TAG_I, 1, &tag);
+		print_otag(h, TAG_EM, 1, &tag);
 		return(1);
 	}
 
 	for (nn = n->child; nn; nn = nn->next) {
-		t = print_otag(h, TAG_I, 1, &tag);
+		t = print_otag(h, TAG_EM, 1, &tag);
 		print_text(h, nn->string);
 		print_tagq(h, t);
 		if (nn->next) {
@@ -1429,7 +1441,7 @@ mdoc_ft_pre(MDOC_ARGS)
 
 	synopsis_pre(h, n);
 	PAIR_CLASS_INIT(&tag, "ftype");
-	print_otag(h, TAG_I, 1, &tag);
+	print_otag(h, TAG_EM, 1, &tag);
 	return(1);
 }
 
@@ -1454,7 +1466,7 @@ mdoc_fn_pre(MDOC_ARGS)
 	ep = strchr(sp, ' ');
 	if (NULL != ep) {
 		PAIR_CLASS_INIT(&tag[0], "ftype");
-		t = print_otag(h, TAG_I, 1, tag);
+		t = print_otag(h, TAG_EM, 1, tag);
 
 		while (ep) {
 			sz = MIN((int)(ep - sp), BUFSIZ - 1);
@@ -1507,7 +1519,7 @@ mdoc_fn_pre(MDOC_ARGS)
 		i = 1;
 		if (MDOC_SYNPRETTY & n->flags)
 			i = 2;
-		t = print_otag(h, TAG_I, i, tag);
+		t = print_otag(h, TAG_EM, i, tag);
 		print_text(h, n->string);
 		print_tagq(h, t);
 		if (n->next) {
@@ -1678,7 +1690,7 @@ static void
 mdoc_fo_post(MDOC_ARGS)
 {
 
-	if (MDOC_BODY != n->type)
+	if (MDOC_HEAD != n->type)
 		return;
 	h->flags |= HTML_NOSPACE;
 	print_text(h, ")");
@@ -1995,7 +2007,7 @@ mdoc__x_pre(MDOC_ARGS)
 		break;
 	case(MDOC__B):
 		PAIR_CLASS_INIT(&tag[0], "ref-book");
-		t = TAG_I;
+		t = TAG_EM;
 		break;
 	case(MDOC__C):
 		PAIR_CLASS_INIT(&tag[0], "ref-city");
@@ -2005,11 +2017,11 @@ mdoc__x_pre(MDOC_ARGS)
 		break;
 	case(MDOC__I):
 		PAIR_CLASS_INIT(&tag[0], "ref-issue");
-		t = TAG_I;
+		t = TAG_EM;
 		break;
 	case(MDOC__J):
 		PAIR_CLASS_INIT(&tag[0], "ref-jrnl");
-		t = TAG_I;
+		t = TAG_EM;
 		break;
 	case(MDOC__N):
 		PAIR_CLASS_INIT(&tag[0], "ref-num");

@@ -14,12 +14,16 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 # html5 things to improve
 
-- html5 doctype
-- no inline styles
-- drop hardcoded col widths
-- markdown2-style header ids
+- <p> tags for bare content
+- markdown2-style header ids:
+    bufcat_id(struct html *h, const char *src) in html.c
+- <section> instead of <div class="section">
+- <header>, <footer>
+- `&#91;` and others necessary?
+- try other man pages for missed styles
 - revisit CSS classes assigned
 - nicer stock CSS
+
 
 
 # Dev Notes
