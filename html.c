@@ -709,6 +709,17 @@ bufcat_id(struct html *h, const char *src)
 
 	/* Cf. <http://www.w3.org/TR/html4/types.html#h-6.2>. */
 
-	while ('\0' != *src)
-		bufcat_fmt(h, "%.2x", *src++);
+	char last_ch = NULL;
+	while ('\0' != *src) {
+		char ch = *src++;
+		if ('a' <= ch && ch <= 'z') {
+			bufcat_fmt(h, "%c", ch);
+			last_ch = ch;
+		} else if ('A' <= ch && ch <= 'Z') {
+			bufcat_fmt(h, "%c", ch + 32);
+			last_ch = ch + 32;
+		} else if (last_ch != '-') {
+			bufcat_fmt(h, "-");
+		}
+	}
 }
