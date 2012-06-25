@@ -24,6 +24,17 @@ branch](https://github.com/trentm/mdocml/tree/html5).
           <li class='tc'>json tool manual</li>
           <li class='tr'>json(1)</li>
         </ol>
+      before:
+        <table class="head" width="100%">
+        <tbody>
+        <tr>
+        <td class="head-ltitle">PRECONV(1)</td>
+        <td class="head-vol" align="center">General Commands Manual</td>
+        <td class="head-rtitle" align="right">PRECONV(1)</td>
+        </tr>
+        </tbody>
+        </table>
+
     - h1 -> h2, h2 -> h3
     - from: <strong class="name">preconv</strong> &#8212; <span class="desc">recode multibyte UNIX manuals</span></div>
         to: <code>json</code> - <span class="man-whatis">(aka "jsontool") JSON love for your command line.</span>
@@ -46,14 +57,14 @@ branch](https://github.com/trentm/mdocml/tree/html5).
             <dt><code>-q, --quiet</code></dt><dd><p>Don't warn if input isn't valid JSON.</p></dd>
             </dl>
     - maybe from <pre> to <pre><code>
-
-
+    - not all caps title
 
 - try other man pages for missed styles
 - TOC
 - link-up embedded "foo(N)" text. See
   <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
 - get full "NAME" section content first sentence in the <title>
+    - see `b` in `mdoc_root_pre`
 - a way to control the OS in footer
 - optional OS in <title> (e.g. to get google juice and association
   for the OS).

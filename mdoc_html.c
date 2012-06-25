@@ -494,27 +494,30 @@ print_mdoc_node(MDOC_ARGS)
 static void
 mdoc_root_post(MDOC_ARGS)
 {
-	struct htmlpair	 tag[2];
-	struct tag	*t, *tt;
+	struct htmlpair	 tag;
+	struct tag	*t;
+	char		 title[BUFSIZ];
 
-	PAIR_CLASS_INIT(&tag[0], "foot");
-	PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
-	t = print_otag(h, TAG_TABLE, 2, tag);
+	PAIR_CLASS_INIT(&tag, "man-decor man-foot");
+	t = print_otag(h, TAG_OL, 1, &tag);
 
-	print_otag(h, TAG_TBODY, 0, NULL);
-
-	tt = print_otag(h, TAG_TR, 0, NULL);
-
-	PAIR_CLASS_INIT(&tag[0], "foot-date");
-	print_otag(h, TAG_TD, 1, tag);
-	print_text(h, m->date);
-	print_stagq(h, tt);
-
-	PAIR_CLASS_INIT(&tag[0], "foot-os");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
-	print_otag(h, TAG_TD, 2, tag);
+	PAIR_CLASS_INIT(&tag, "tl");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, m->os);
+	print_stagq(h, t);
+
+	PAIR_CLASS_INIT(&tag, "tc");
+	print_otag(h, TAG_LI, 1, &tag);
+	print_text(h, m->date);
+	print_stagq(h, t);
+
+	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
+	PAIR_CLASS_INIT(&tag, "tr");
+	print_otag(h, TAG_LI, 1, &tag);
+	print_text(h, title);
 	print_tagq(h, t);
+
+	return (1);
 }
 
 
@@ -522,8 +525,8 @@ mdoc_root_post(MDOC_ARGS)
 static int
 mdoc_root_pre(MDOC_ARGS)
 {
-	struct htmlpair	 tag[3];
-	struct tag	*t, *tt;
+	struct htmlpair	 tag;
+	struct tag	*t;
 	char		 b[BUFSIZ], title[BUFSIZ];
 
 	strlcpy(b, m->vol, BUFSIZ);
@@ -536,50 +539,24 @@ mdoc_root_pre(MDOC_ARGS)
 
 	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
 
-	PAIR_CLASS_INIT(&tag[0], "man-decor man-head");
-	t = print_otag(h, TAG_OL, 1, tag);
+	PAIR_CLASS_INIT(&tag, "man-decor man-head");
+	t = print_otag(h, TAG_OL, 1, &tag);
 
-	PAIR_CLASS_INIT(&tag[0], "tl");
-	print_otag(h, TAG_LI, 1, tag);
+	PAIR_CLASS_INIT(&tag, "tl");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, title);
 	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "tc");
-	print_otag(h, TAG_LI, 1, tag);
+	PAIR_CLASS_INIT(&tag, "tc");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, b);
 	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "tr");
-	print_otag(h, TAG_LI, 1, tag);
+	PAIR_CLASS_INIT(&tag, "tr");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, title);
-	//print_stagq(h, t);
 	print_tagq(h, t);
 
-	//XXX
-	//PAIR_CLASS_INIT(&tag[0], "head");
-	//PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
-	//t = print_otag(h, TAG_TABLE, 2, tag);
-	//
-	//print_otag(h, TAG_TBODY, 0, NULL);
-	//
-	//tt = print_otag(h, TAG_TR, 0, NULL);
-	//
-	//PAIR_CLASS_INIT(&tag[0], "head-ltitle");
-	//print_otag(h, TAG_TD, 1, tag);
-	//print_text(h, title);
-	//print_stagq(h, tt);
-	//
-	//PAIR_CLASS_INIT(&tag[0], "head-vol");
-	//PAIR_INIT(&tag[1], ATTR_ALIGN, "center");
-	//print_otag(h, TAG_TD, 2, tag);
-	//print_text(h, b);
-	//print_stagq(h, tt);
-	//
-	//PAIR_CLASS_INIT(&tag[0], "head-rtitle");
-	//PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
-	//print_otag(h, TAG_TD, 2, tag);
-	//print_text(h, title);
-	//print_tagq(h, t);
 	return(1);
 }
 
