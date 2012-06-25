@@ -16,25 +16,6 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 - revisit CSS classes assigned, nicer stock CSS
 - ronnify:
-    - <body id='manpage'>
-    - <div class='mp'>
-    - Lighter head and foot:
-        <ol class='man-decor man-head'>
-          <li class='tl'>json(1)</li>
-          <li class='tc'>json tool manual</li>
-          <li class='tr'>json(1)</li>
-        </ol>
-      before:
-        <table class="head" width="100%">
-        <tbody>
-        <tr>
-        <td class="head-ltitle">PRECONV(1)</td>
-        <td class="head-vol" align="center">General Commands Manual</td>
-        <td class="head-rtitle" align="right">PRECONV(1)</td>
-        </tr>
-        </tbody>
-        </table>
-
     - h1 -> h2, h2 -> h3
     - from: <strong class="name">preconv</strong> &#8212; <span class="desc">recode multibyte UNIX manuals</span></div>
         to: <code>json</code> - <span class="man-whatis">(aka "jsontool") JSON love for your command line.</span>
@@ -59,6 +40,7 @@ branch](https://github.com/trentm/mdocml/tree/html5).
     - maybe from <pre> to <pre><code>
     - not all caps title
 
+- li and dd: HTML_CCLRLINE in html.c
 - try other man pages for missed styles
 - TOC
 - link-up embedded "foo(N)" text. See

@@ -43,6 +43,7 @@ struct	htmldata {
 #define	HTML_NOSTACK	 (1 << 1)
 #define	HTML_AUTOCLOSE	 (1 << 2) /* Tag has auto-closure. */
 #define	HTML_CCLRLINE	 (1 << 3) /* Clear line only for close tag. */
+#define	HTML_ACLRLINE	 (1 << 4) /* Clear line before and after open and close tag. */
 };
 
 static	const struct htmldata htmltags[TAG_MAX] = {
@@ -51,9 +52,11 @@ static	const struct htmldata htmltags[TAG_MAX] = {
 	{"body",	HTML_CLRLINE}, /* TAG_BODY */
 	{"meta",	HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_META */
 	{"title",	HTML_CCLRLINE}, /* TAG_TITLE */
-	{"div",		HTML_CLRLINE}, /* TAG_DIV */
+	{"div",		HTML_ACLRLINE}, /* TAG_DIV */
+	{"section",	HTML_ACLRLINE}, /* TAG_SECTION */
 	{"h1",		HTML_CCLRLINE}, /* TAG_H1 */
 	{"h2",		HTML_CCLRLINE}, /* TAG_H2 */
+	{"h3",		HTML_CCLRLINE}, /* TAG_H3 */
 	{"span",	0}, /* TAG_SPAN */
 	{"link",	HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_LINK */
 	{"br",		HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_BR */
@@ -420,7 +423,7 @@ print_otag(struct html *h, enum htmltag tag,
 		t = NULL;
 
 	if ( ! (HTML_NOSPACE & h->flags))
-		if ( ! (HTML_CLRLINE & htmltags[tag].flags)) {
+		if ( ! ((HTML_CLRLINE | HTML_ACLRLINE) & htmltags[tag].flags)) {
 			/* Manage keeps! */
 			if ( ! (HTML_KEEP & h->flags)) {
 				if (HTML_PREKEEP & h->flags)
@@ -464,7 +467,7 @@ print_otag(struct html *h, enum htmltag tag,
 
 	h->flags |= HTML_NOSPACE;
 
-	if ((HTML_AUTOCLOSE | HTML_CLRLINE) & htmltags[tag].flags)
+	if ((HTML_AUTOCLOSE | HTML_CLRLINE | HTML_ACLRLINE) & htmltags[tag].flags)
 		putchar('\n');
 
 	return(t);
@@ -475,8 +478,12 @@ static void
 print_ctag(struct html *h, enum htmltag tag)
 {
 
+	if (HTML_ACLRLINE & htmltags[tag].flags) {
+		h->flags |= HTML_NOSPACE;
+		putchar('\n');
+	}
 	printf("</%s>", htmltags[tag].name);
-	if ((HTML_CLRLINE | HTML_CCLRLINE) & htmltags[tag].flags) {
+	if ((HTML_CLRLINE | HTML_CCLRLINE | HTML_ACLRLINE) & htmltags[tag].flags) {
 		h->flags |= HTML_NOSPACE;
 		putchar('\n');
 	}

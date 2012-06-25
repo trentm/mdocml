@@ -1,9 +1,10 @@
 /* style: man */
 body#manpage {margin:0}
 .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
-.mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+.mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin-bottom:20px}
 .mp h2 {margin:10px 0 0 0}
 .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+.mp section > p,.mp section > pre,.mp section > ul,.mp section > ol,.mp section > dl {margin-left:8ex}
 .mp h3 {margin:0 0 0 4ex}
 .mp dt {margin:0;clear:left}
 .mp dt.flush {float:left;width:8ex}
