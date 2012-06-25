@@ -437,8 +437,8 @@ html5compare: mandoc
 	#./mandoc -Thtml -Ostyle=style.css preconv.1 > preconv.1.html
 	#./mandoc -Thtml5 -Ostyle=style.css preconv.1 > preconv.1.html5
 	# TODO: mandoc.3
-	./mandoc -Thtml -Ostyle=foo.css preconv.1 > preconv.1.html
-	./mandoc -Thtml5 -Ostyle=foo.css preconv.1 > a-preconv.html
+	./mandoc -Thtml -Ostyle=html5.css preconv.1 > preconv.1.html
+	./mandoc -Thtml5 -Ostyle=html5.css preconv.1 > a-preconv.html
 	@echo "-- diff"
 	diff -u preconv.1.html a-preconv.html || true
 	@echo ""

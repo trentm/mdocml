@@ -353,9 +353,10 @@ static void
 print_mdoc(MDOC_ARGS)
 {
 	struct tag	*t, *tt;
-	struct htmlpair	 tag;
+	struct htmlpair	 tagBody;
+	struct htmlpair	 tagDiv;
 
-	PAIR_CLASS_INIT(&tag, "mandoc");
+	PAIR_CLASS_INIT(&tagDiv, "mp");
 
 	if ( ! (HTML_FRAGMENT & h->oflags)) {
 		print_gen_decls(h);
@@ -363,10 +364,11 @@ print_mdoc(MDOC_ARGS)
 		tt = print_otag(h, TAG_HEAD, 0, NULL);
 		print_mdoc_head(m, n, h);
 		print_tagq(h, tt);
-		print_otag(h, TAG_BODY, 0, NULL);
-		print_otag(h, TAG_DIV, 1, &tag);
+		PAIR_ID_INIT(&tagBody, "manpage");
+		print_otag(h, TAG_BODY, 1, &tagBody);
+		print_otag(h, TAG_DIV, 1, &tagDiv);
 	} else
-		t = print_otag(h, TAG_DIV, 1, &tag);
+		t = print_otag(h, TAG_DIV, 1, &tagDiv);
 
 	print_mdoc_nodelist(m, n, h);
 	print_tagq(h, t);
@@ -534,30 +536,50 @@ mdoc_root_pre(MDOC_ARGS)
 
 	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
 
-	PAIR_CLASS_INIT(&tag[0], "head");
-	PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
-	t = print_otag(h, TAG_TABLE, 2, tag);
+	PAIR_CLASS_INIT(&tag[0], "man-decor man-head");
+	t = print_otag(h, TAG_OL, 1, tag);
 
-	print_otag(h, TAG_TBODY, 0, NULL);
-
-	tt = print_otag(h, TAG_TR, 0, NULL);
-
-	PAIR_CLASS_INIT(&tag[0], "head-ltitle");
-	print_otag(h, TAG_TD, 1, tag);
+	PAIR_CLASS_INIT(&tag[0], "tl");
+	print_otag(h, TAG_LI, 1, tag);
 	print_text(h, title);
-	print_stagq(h, tt);
+	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "head-vol");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "center");
-	print_otag(h, TAG_TD, 2, tag);
+	PAIR_CLASS_INIT(&tag[0], "tc");
+	print_otag(h, TAG_LI, 1, tag);
 	print_text(h, b);
-	print_stagq(h, tt);
+	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "head-rtitle");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
-	print_otag(h, TAG_TD, 2, tag);
+	PAIR_CLASS_INIT(&tag[0], "tr");
+	print_otag(h, TAG_LI, 1, tag);
 	print_text(h, title);
+	//print_stagq(h, t);
 	print_tagq(h, t);
+
+	//XXX
+	//PAIR_CLASS_INIT(&tag[0], "head");
+	//PAIR_INIT(&tag[1], ATTR_WIDTH, "100%");
+	//t = print_otag(h, TAG_TABLE, 2, tag);
+	//
+	//print_otag(h, TAG_TBODY, 0, NULL);
+	//
+	//tt = print_otag(h, TAG_TR, 0, NULL);
+	//
+	//PAIR_CLASS_INIT(&tag[0], "head-ltitle");
+	//print_otag(h, TAG_TD, 1, tag);
+	//print_text(h, title);
+	//print_stagq(h, tt);
+	//
+	//PAIR_CLASS_INIT(&tag[0], "head-vol");
+	//PAIR_INIT(&tag[1], ATTR_ALIGN, "center");
+	//print_otag(h, TAG_TD, 2, tag);
+	//print_text(h, b);
+	//print_stagq(h, tt);
+	//
+	//PAIR_CLASS_INIT(&tag[0], "head-rtitle");
+	//PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
+	//print_otag(h, TAG_TD, 2, tag);
+	//print_text(h, title);
+	//print_tagq(h, t);
 	return(1);
 }
 
