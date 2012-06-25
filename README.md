@@ -14,15 +14,52 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 # html5 things to improve
 
-- <p> tags for bare content
-- markdown2-style header ids:
-    bufcat_id(struct html *h, const char *src) in html.c
+- revisit CSS classes assigned, nicer stock CSS
+- ronnify:
+    - <body id='manpage'>
+    - <div class='mp'>
+    - Lighter head and foot:
+        <ol class='man-decor man-head'>
+          <li class='tl'>json(1)</li>
+          <li class='tc'>json tool manual</li>
+          <li class='tr'>json(1)</li>
+        </ol>
+    - h1 -> h2, h2 -> h3
+    - from: <strong class="name">preconv</strong> &#8212; <span class="desc">recode multibyte UNIX manuals</span></div>
+        to: <code>json</code> - <span class="man-whatis">(aka "jsontool") JSON love for your command line.</span>
+    - from:
+            <dl class="list list-tag">
+            <dt class="list-tag"><strong class="flag">&#45;D</strong> <em class="arg">enc</em></dt>
+            <dd class="list-tag">
+            The default encoding.</dd>
+            <dt class="list-tag"><strong class="flag">&#45;e</strong> <em class="arg">enc</em></dt>
+            <dd class="list-tag">
+            The document's encoding.</dd>
+            <dt class="list-tag"><em class="arg">file</em></dt>
+            <dd class="list-tag">
+            The input file.</dd>
+            </dl>
+        to:
+            <dl>
+            <dt><code>-h</code>, <code>--help</code></dt><dd><p>Print this help info and exit.</p></dd>
+            <dt><code>--version</code></dt><dd><p>Print version of this command and exit.</p></dd>
+            <dt><code>-q, --quiet</code></dt><dd><p>Don't warn if input isn't valid JSON.</p></dd>
+            </dl>
+    - maybe from <pre> to <pre><code>
+
+
+
+- try other man pages for missed styles
+- TOC
+- link-up embedded "foo(N)" text. See
+  <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
+- get full "NAME" section content first sentence in the <title>
+- a way to control the OS in footer
+- optional OS in <title> (e.g. to get google juice and association
+  for the OS).
 - <section> instead of <div class="section">
 - <header>, <footer>
 - `&#91;` and others necessary?
-- try other man pages for missed styles
-- revisit CSS classes assigned
-- nicer stock CSS
 
 
 
