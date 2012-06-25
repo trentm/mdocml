@@ -681,7 +681,7 @@ mdoc_nd_pre(MDOC_ARGS)
 
 	/* XXX: this tag in theory can contain block elements. */
 
-	print_text(h, "\\(em");
+	print_text(h, "-");
 	PAIR_CLASS_INIT(&tag, "desc");
 	print_otag(h, TAG_SPAN, 1, &tag);
 	return(1);

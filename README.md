@@ -16,11 +16,10 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 - not all caps title
 - try other man pages for missed styles
-- TOC
-- link-up embedded "foo(N)" text. See
+- [postprocess] TOC
+- [postprocess] link-up embedded "foo(N)" text. See
   <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
-- get full "NAME" section content first sentence in the <title>
-    - see `b` in `mdoc_root_pre`
+- [postprocess] get full "NAME" section content first sentence in the <title>
 
 # Someday/Maybe
 
