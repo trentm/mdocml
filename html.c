@@ -712,7 +712,7 @@ bufcat_id(struct html *h, const char *src)
 	char last_ch = NULL;
 	while ('\0' != *src) {
 		char ch = *src++;
-		if ('a' <= ch && ch <= 'z') {
+		if (('a' <= ch && ch <= 'z') || ('0' <= ch && ch <= '9')) {
 			bufcat_fmt(h, "%c", ch);
 			last_ch = ch;
 		} else if ('A' <= ch && ch <= 'Z') {
