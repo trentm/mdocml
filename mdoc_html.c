@@ -99,6 +99,7 @@ static	int		  mdoc_mt_pre(MDOC_ARGS);
 static	int		  mdoc_ms_pre(MDOC_ARGS);
 static	int		  mdoc_nd_pre(MDOC_ARGS);
 static	int		  mdoc_nm_pre(MDOC_ARGS);
+static	int		  mdoc_nm_post(MDOC_ARGS);
 static	int		  mdoc_ns_pre(MDOC_ARGS);
 static	int		  mdoc_pa_pre(MDOC_ARGS);
 static	void		  mdoc_pf_post(MDOC_ARGS);
@@ -112,6 +113,7 @@ static	int		  mdoc_sh_post(MDOC_ARGS);
 static	int		  mdoc_sm_pre(MDOC_ARGS);
 static	int		  mdoc_sp_pre(MDOC_ARGS);
 static	int		  mdoc_ss_pre(MDOC_ARGS);
+static	int		  mdoc_ss_post(MDOC_ARGS);
 static	int		  mdoc_sx_pre(MDOC_ARGS);
 static	int		  mdoc_sy_pre(MDOC_ARGS);
 static	int		  mdoc_ud_pre(MDOC_ARGS);
@@ -126,7 +128,7 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{NULL, NULL}, /* Dt */
 	{NULL, NULL}, /* Os */
 	{mdoc_sh_pre, mdoc_sh_post}, /* Sh */
-	{mdoc_ss_pre, NULL }, /* Ss */
+	{mdoc_ss_pre, mdoc_ss_post}, /* Ss */
 	{mdoc_pp_pre, NULL}, /* Pp */
 	{mdoc_d1_pre, NULL}, /* D1 */
 	{mdoc_d1_pre, NULL}, /* Dl */
@@ -153,7 +155,7 @@ static	const struct htmlmdoc mdocs[MDOC_MAX] = {
 	{mdoc_in_pre, NULL}, /* In */
 	{mdoc_li_pre, NULL}, /* Li */
 	{mdoc_nd_pre, NULL}, /* Nd */
-	{mdoc_nm_pre, NULL}, /* Nm */
+	{mdoc_nm_pre, mdoc_nm_post}, /* Nm */
 	{mdoc_quote_pre, mdoc_quote_post}, /* Op */
 	{NULL, NULL}, /* Ot */
 	{mdoc_pa_pre, NULL}, /* Pa */
@@ -568,8 +570,7 @@ mdoc_sh_pre(MDOC_ARGS)
 	struct htmlpair	 tag;
 
 	if (MDOC_BLOCK == n->type) {
-		PAIR_CLASS_INIT(&tag, "section");
-		print_otag(h, TAG_DIV, 1, &tag);
+		print_otag(h, TAG_SECTION, 0, NULL);
 		return(1);
 	} else if (MDOC_BODY == n->type)
 		return(1);
@@ -584,9 +585,9 @@ mdoc_sh_pre(MDOC_ARGS)
 
 	if (NULL == n) {
 		PAIR_ID_INIT(&tag, h->buf);
-		print_otag(h, TAG_H1, 1, &tag);
+		print_otag(h, TAG_H2, 1, &tag);
 	} else
-		print_otag(h, TAG_H1, 0, NULL);
+		print_otag(h, TAG_H2, 0, NULL);
 
 	return(1);
 }
@@ -609,8 +610,7 @@ mdoc_ss_pre(MDOC_ARGS)
 	struct htmlpair	 tag;
 
 	if (MDOC_BLOCK == n->type) {
-		PAIR_CLASS_INIT(&tag, "subsection");
-		print_otag(h, TAG_DIV, 1, &tag);
+		print_otag(h, TAG_SECTION, 0, NULL);
 		return(1);
 	} else if (MDOC_BODY == n->type)
 		return(1);
@@ -625,9 +625,21 @@ mdoc_ss_pre(MDOC_ARGS)
 
 	if (NULL == n) {
 		PAIR_ID_INIT(&tag, h->buf);
-		print_otag(h, TAG_H2, 1, &tag);
+		print_otag(h, TAG_H3, 1, &tag);
 	} else
-		print_otag(h, TAG_H2, 0, NULL);
+		print_otag(h, TAG_H3, 0, NULL);
+
+	return(1);
+}
+
+
+/* ARGSUSED */
+static int
+mdoc_ss_post(MDOC_ARGS)
+{
+	if (MDOC_HEAD != n->type)
+		return(1);
+	print_otag(h, TAG_P, 0, NULL);
 
 	return(1);
 }
@@ -702,8 +714,17 @@ mdoc_nm_pre(MDOC_ARGS)
 	}
 
 	synopsis_pre(h, n);
-	PAIR_CLASS_INIT(&tag, "synopsis");
-	print_otag(h, TAG_DIV, 1, &tag);
+
+	return(1);
+}
+
+
+static int
+mdoc_nm_post(MDOC_ARGS)
+{
+	if (MDOC_BLOCK == n->type) {
+		print_otag(h, TAG_BR, 0, NULL);
+	}
 
 	return(1);
 }
@@ -987,11 +1008,6 @@ mdoc_bl_pre(MDOC_ARGS)
 
 		return(0);
 	}
-
-	//SCALE_VS_INIT(&su, 0);
-	//bufcat_su(h, "margin-top", &su);
-	//bufcat_su(h, "margin-bottom", &su);
-	//PAIR_STYLE_INIT(&tag[0], h);
 
 	assert(lists[n->norm->Bl.type]);
 	strlcpy(buf, "list ", BUFSIZ);
