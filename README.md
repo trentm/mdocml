@@ -14,45 +14,22 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 # html5 things to improve
 
-- revisit CSS classes assigned, nicer stock CSS
-- ronnify:
-    - h1 -> h2, h2 -> h3
-    - from: <strong class="name">preconv</strong> &#8212; <span class="desc">recode multibyte UNIX manuals</span></div>
-        to: <code>json</code> - <span class="man-whatis">(aka "jsontool") JSON love for your command line.</span>
-    - from:
-            <dl class="list list-tag">
-            <dt class="list-tag"><strong class="flag">&#45;D</strong> <em class="arg">enc</em></dt>
-            <dd class="list-tag">
-            The default encoding.</dd>
-            <dt class="list-tag"><strong class="flag">&#45;e</strong> <em class="arg">enc</em></dt>
-            <dd class="list-tag">
-            The document's encoding.</dd>
-            <dt class="list-tag"><em class="arg">file</em></dt>
-            <dd class="list-tag">
-            The input file.</dd>
-            </dl>
-        to:
-            <dl>
-            <dt><code>-h</code>, <code>--help</code></dt><dd><p>Print this help info and exit.</p></dd>
-            <dt><code>--version</code></dt><dd><p>Print version of this command and exit.</p></dd>
-            <dt><code>-q, --quiet</code></dt><dd><p>Don't warn if input isn't valid JSON.</p></dd>
-            </dl>
-    - maybe from <pre> to <pre><code>
-    - not all caps title
-
-- li and dd: HTML_CCLRLINE in html.c
+- not all caps title
 - try other man pages for missed styles
 - TOC
 - link-up embedded "foo(N)" text. See
   <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
 - get full "NAME" section content first sentence in the <title>
     - see `b` in `mdoc_root_pre`
+
+# Someday/Maybe
+
+- <header>, <footer>
+- `&#91;` and others necessary?
+- decide if all the list-* styles are necessary (see style.css)
 - a way to control the OS in footer
 - optional OS in <title> (e.g. to get google juice and association
   for the OS).
-- <section> instead of <div class="section">
-- <header>, <footer>
-- `&#91;` and others necessary?
 
 
 
