@@ -66,12 +66,12 @@ static	const struct htmldata htmltags[TAG_MAX] = {
 	{"col",		HTML_CLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_COL */
 	{"tr",		HTML_CLRLINE}, /* TAG_TR */
 	{"td",		HTML_CCLRLINE}, /* TAG_TD */
-	{"li",		HTML_CLRLINE}, /* TAG_LI */
+	{"li",		HTML_CCLRLINE}, /* TAG_LI */
 	{"ul",		HTML_CLRLINE}, /* TAG_UL */
 	{"ol",		HTML_CLRLINE}, /* TAG_OL */
 	{"dl",		HTML_CLRLINE}, /* TAG_DL */
 	{"dt",		HTML_CCLRLINE}, /* TAG_DT */
-	{"dd",		HTML_CLRLINE}, /* TAG_DD */
+	{"dd",		HTML_CCLRLINE}, /* TAG_DD */
 	{"blockquote",	HTML_CLRLINE}, /* TAG_BLOCKQUOTE */
 	{"p",		HTML_CCLRLINE | HTML_NOSTACK | HTML_AUTOCLOSE}, /* TAG_P */
 	{"pre",		HTML_CCLRLINE }, /* TAG_PRE */
