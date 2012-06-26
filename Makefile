@@ -452,6 +452,16 @@ html5compare: mandoc
 	@echo "-- diff to last"
 	diff -u a-preconv.html.last a-preconv.html || true
 
+testchown: mandoc
+	./mandoc -Thtml5 -Ostyle=html5.css ./tmp/man-smartos-20120126T071347Z/man1/chown.1 > chown.1.html
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo ""
+	@echo "-- diff to last"
+	touch chown.1.html.last
+	diff -u chown.1.html.last chown.1.html || true
+
 clean:
 	rm -f libmandoc.a $(LIBMANDOC_OBJS)
 	rm -f llib-llibmandoc.ln $(LIBMANDOC_LNS)

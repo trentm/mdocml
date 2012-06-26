@@ -152,9 +152,9 @@ static void
 print_man(MAN_ARGS)
 {
 	struct tag	*t, *tt;
-	struct htmlpair	 tag;
+	struct htmlpair	 tagBody, tagDiv;
 
-	PAIR_CLASS_INIT(&tag, "mandoc");
+	PAIR_CLASS_INIT(&tagDiv, "mp");
 
 	if ( ! (HTML_FRAGMENT & h->oflags)) {
 		print_gen_decls(h);
@@ -162,10 +162,11 @@ print_man(MAN_ARGS)
 		tt = print_otag(h, TAG_HEAD, 0, NULL);
 		print_man_head(m, n, mh, h);
 		print_tagq(h, tt);
-		print_otag(h, TAG_BODY, 0, NULL);
-		print_otag(h, TAG_DIV, 1, &tag);
+		PAIR_ID_INIT(&tagBody, "manpage");
+		print_otag(h, TAG_BODY, 1, &tagBody);
+		print_otag(h, TAG_DIV, 1, &tagDiv);
 	} else
-		t = print_otag(h, TAG_DIV, 1, &tag);
+		t = print_otag(h, TAG_DIV, 1, &tagDiv);
 
 	print_man_nodelist(m, n, mh, h);
 	print_tagq(h, t);
@@ -299,8 +300,8 @@ a2width(const struct man_node *n, struct roffsu *su)
 static void
 man_root_pre(MAN_ARGS)
 {
-	struct htmlpair	 tag[3];
-	struct tag	*t, *tt;
+	struct htmlpair	 tag;
+	struct tag	*t;
 	char		 b[BUFSIZ], title[BUFSIZ];
 
 	b[0] = 0;
@@ -311,33 +312,21 @@ man_root_pre(MAN_ARGS)
 	assert(m->msec);
 	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
 
-	PAIR_SUMMARY_INIT(&tag[0], "Document Header");
-	PAIR_CLASS_INIT(&tag[1], "head");
-	PAIR_INIT(&tag[2], ATTR_WIDTH, "100%");
-	t = print_otag(h, TAG_TABLE, 3, tag);
-	PAIR_INIT(&tag[0], ATTR_WIDTH, "30%");
-	print_otag(h, TAG_COL, 1, tag);
-	print_otag(h, TAG_COL, 1, tag);
-	print_otag(h, TAG_COL, 1, tag);
+	PAIR_CLASS_INIT(&tag, "man-decor man-head");
+	t = print_otag(h, TAG_OL, 1, &tag);
 
-	print_otag(h, TAG_TBODY, 0, NULL);
-
-	tt = print_otag(h, TAG_TR, 0, NULL);
-
-	PAIR_CLASS_INIT(&tag[0], "head-ltitle");
-	print_otag(h, TAG_TD, 1, tag);
+	PAIR_CLASS_INIT(&tag, "tl");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, title);
-	print_stagq(h, tt);
+	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "head-vol");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "center");
-	print_otag(h, TAG_TD, 2, tag);
+	PAIR_CLASS_INIT(&tag, "tc");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, b);
-	print_stagq(h, tt);
+	print_stagq(h, t);
 
-	PAIR_CLASS_INIT(&tag[0], "head-rtitle");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
-	print_otag(h, TAG_TD, 2, tag);
+	PAIR_CLASS_INIT(&tag, "tr");
+	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, title);
 	print_tagq(h, t);
 }
@@ -347,32 +336,28 @@ man_root_pre(MAN_ARGS)
 static void
 man_root_post(MAN_ARGS)
 {
-	struct htmlpair	 tag[3];
-	struct tag	*t, *tt;
+	struct htmlpair	 tag;
+	struct tag	*t;
+	char		 title[BUFSIZ];
 
-	PAIR_SUMMARY_INIT(&tag[0], "Document Footer");
-	PAIR_CLASS_INIT(&tag[1], "foot");
-	PAIR_INIT(&tag[2], ATTR_WIDTH, "100%");
-	t = print_otag(h, TAG_TABLE, 3, tag);
-	PAIR_INIT(&tag[0], ATTR_WIDTH, "50%");
-	print_otag(h, TAG_COL, 1, tag);
-	print_otag(h, TAG_COL, 1, tag);
+	PAIR_CLASS_INIT(&tag, "man-decor man-foot");
+	t = print_otag(h, TAG_OL, 1, &tag);
 
-	tt = print_otag(h, TAG_TR, 0, NULL);
-
-	PAIR_CLASS_INIT(&tag[0], "foot-date");
-	print_otag(h, TAG_TD, 1, tag);
-
-	assert(m->date);
-	print_text(h, m->date);
-	print_stagq(h, tt);
-
-	PAIR_CLASS_INIT(&tag[0], "foot-os");
-	PAIR_INIT(&tag[1], ATTR_ALIGN, "right");
-	print_otag(h, TAG_TD, 2, tag);
-
+	PAIR_CLASS_INIT(&tag, "tl");
+	print_otag(h, TAG_LI, 1, &tag);
 	if (m->source)
 		print_text(h, m->source);
+	print_stagq(h, t);
+
+	PAIR_CLASS_INIT(&tag, "tc");
+	print_otag(h, TAG_LI, 1, &tag);
+	print_text(h, m->date);
+	print_stagq(h, t);
+
+	snprintf(title, BUFSIZ - 1, "%s(%s)", m->title, m->msec);
+	PAIR_CLASS_INIT(&tag, "tr");
+	print_otag(h, TAG_LI, 1, &tag);
+	print_text(h, title);
 	print_tagq(h, t);
 }
 

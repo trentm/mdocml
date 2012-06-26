@@ -99,7 +99,7 @@ static	int		  mdoc_mt_pre(MDOC_ARGS);
 static	int		  mdoc_ms_pre(MDOC_ARGS);
 static	int		  mdoc_nd_pre(MDOC_ARGS);
 static	int		  mdoc_nm_pre(MDOC_ARGS);
-static	int		  mdoc_nm_post(MDOC_ARGS);
+static	void		  mdoc_nm_post(MDOC_ARGS);
 static	int		  mdoc_ns_pre(MDOC_ARGS);
 static	int		  mdoc_pa_pre(MDOC_ARGS);
 static	void		  mdoc_pf_post(MDOC_ARGS);
@@ -109,11 +109,11 @@ static	int		  mdoc_quote_pre(MDOC_ARGS);
 static	int		  mdoc_rs_pre(MDOC_ARGS);
 static	int		  mdoc_rv_pre(MDOC_ARGS);
 static	int		  mdoc_sh_pre(MDOC_ARGS);
-static	int		  mdoc_sh_post(MDOC_ARGS);
+static	void		  mdoc_sh_post(MDOC_ARGS);
 static	int		  mdoc_sm_pre(MDOC_ARGS);
 static	int		  mdoc_sp_pre(MDOC_ARGS);
 static	int		  mdoc_ss_pre(MDOC_ARGS);
-static	int		  mdoc_ss_post(MDOC_ARGS);
+static	void		  mdoc_ss_post(MDOC_ARGS);
 static	int		  mdoc_sx_pre(MDOC_ARGS);
 static	int		  mdoc_sy_pre(MDOC_ARGS);
 static	int		  mdoc_ud_pre(MDOC_ARGS);
@@ -518,8 +518,6 @@ mdoc_root_post(MDOC_ARGS)
 	print_otag(h, TAG_LI, 1, &tag);
 	print_text(h, title);
 	print_tagq(h, t);
-
-	return (1);
 }
 
 
@@ -593,14 +591,12 @@ mdoc_sh_pre(MDOC_ARGS)
 }
 
 /* ARGSUSED */
-static int
+static void
 mdoc_sh_post(MDOC_ARGS)
 {
 	if (MDOC_HEAD != n->type)
 		return(1);
 	print_otag(h, TAG_P, 0, NULL);
-
-	return(1);
 }
 
 /* ARGSUSED */
@@ -634,14 +630,12 @@ mdoc_ss_pre(MDOC_ARGS)
 
 
 /* ARGSUSED */
-static int
+static void
 mdoc_ss_post(MDOC_ARGS)
 {
 	if (MDOC_HEAD != n->type)
 		return(1);
 	print_otag(h, TAG_P, 0, NULL);
-
-	return(1);
 }
 
 
@@ -719,14 +713,12 @@ mdoc_nm_pre(MDOC_ARGS)
 }
 
 
-static int
+static void
 mdoc_nm_post(MDOC_ARGS)
 {
 	if (MDOC_BLOCK == n->type) {
 		print_otag(h, TAG_BR, 0, NULL);
 	}
-
-	return(1);
 }
 
 

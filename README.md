@@ -14,12 +14,49 @@ branch](https://github.com/trentm/mdocml/tree/html5).
 
 # html5 things to improve
 
-- not all caps title
-- try other man pages for missed styles
-- [postprocess] TOC
-- [postprocess] link-up embedded "foo(N)" text. See
-  <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
-- [postprocess] get full "NAME" section content first sentence in the <title>
+- smartos-isms?
+    - "ATTRIBUTES" table is completely broken with `mandoc`. Sigh.
+
+- BUG: why is "make testchmod" broken!?
+    - man_html.c -> need to do all the same fixes
+- cli:
+    - man5 foo.1 > foo.1.html    # single page
+    - options for fragment
+    - options a la ronn for style
+    - multi page:
+        man5 /usr/share/man -o ./man-output/
+
+
+- static html index.html: group by section:
+
+    [ <filter>... ]     <!-- filter down the list -->
+
+    # man1
+
+    aaa         blah blah blah
+    bbb         blah blah blah
+
+    # man2
+
+    ...
+- proj layout:
+    - remove unused C, etc.
+    - move mdocml to src dir (perhaps have a *dep* on this?)
+    - bin/man5  # node.js dep
+- proj name: man2web, man5 (fav), heman (Html E??? Man)
+    - search for man5 usage
+- single man page improvements
+    - id's:
+        - disallow leading '-'s: file://localhost/Users/trentm/tm/mdocml/mdoc.7.html#--nm
+        - disallow trailing '-'s
+    - need to trim empty <p>, e.g. in mdoc.7.html after "Document preamble and NAME section macros"
+    - table first column width: see tables at "Document preamble and NAME section macros" in mdoc.7.html
+    - not all caps title
+    - try other man pages for missed styles
+    - [postprocess] TOC
+    - [postprocess] link-up embedded "foo(N)" text. See
+      <http://rtomayko.github.com/ronn/ronn.1.html#LINK-INDEXES>
+    - [postprocess] get full "NAME" section content first sentence in the <title>
 
 # Someday/Maybe
 
