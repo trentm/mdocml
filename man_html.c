@@ -68,8 +68,10 @@ static	int		  man_OP_pre(MAN_ARGS);
 static	int		  man_PP_pre(MAN_ARGS);
 static	int		  man_RS_pre(MAN_ARGS);
 static	int		  man_SH_pre(MAN_ARGS);
+static	int		  man_SH_post(MAN_ARGS);
 static	int		  man_SM_pre(MAN_ARGS);
 static	int		  man_SS_pre(MAN_ARGS);
+static	int		  man_SS_post(MAN_ARGS);
 static	int		  man_alt_pre(MAN_ARGS);
 static	int		  man_br_pre(MAN_ARGS);
 static	int		  man_ign_pre(MAN_ARGS);
@@ -81,8 +83,8 @@ static	void		  man_root_pre(MAN_ARGS);
 static	const struct htmlman mans[MAN_MAX] = {
 	{ man_br_pre, NULL }, /* br */
 	{ NULL, NULL }, /* TH */
-	{ man_SH_pre, NULL }, /* SH */
-	{ man_SS_pre, NULL }, /* SS */
+	{ man_SH_pre, man_SH_post }, /* SH */
+	{ man_SS_pre, man_SS_post }, /* SS */
 	{ man_IP_pre, NULL }, /* TP */
 	{ man_PP_pre, NULL }, /* LP */
 	{ man_PP_pre, NULL }, /* PP */
@@ -397,14 +399,35 @@ man_SH_pre(MAN_ARGS)
 
 	if (MAN_BLOCK == n->type) {
 		mh->fl &= ~MANH_LITERAL;
-		PAIR_CLASS_INIT(&tag, "section");
-		print_otag(h, TAG_DIV, 1, &tag);
+		print_otag(h, TAG_SECTION, 0, NULL);
 		return(1);
 	} else if (MAN_BODY == n->type)
 		return(1);
 
-	print_otag(h, TAG_H1, 0, NULL);
+	bufinit(h);
+	for (n = n->child; n && MAN_TEXT == n->type; ) {
+		bufcat_id(h, n->string);
+		if (NULL != (n = n->next))
+			bufcat_id(h, " ");
+	}
+
+	if (NULL == n) {
+		PAIR_ID_INIT(&tag, h->buf);
+		print_otag(h, TAG_H2, 1, &tag);
+	} else
+		print_otag(h, TAG_H2, 0, NULL);
+
 	return(1);
+}
+
+/* ARGSUSED */
+static int
+man_SH_post(MAN_ARGS)
+{
+	if (MAN_HEAD != n->type)
+		return 1;
+	print_otag(h, TAG_P, 0, NULL);
+	return 1;
 }
 
 /* ARGSUSED */
@@ -484,15 +507,39 @@ man_SS_pre(MAN_ARGS)
 
 	if (MAN_BLOCK == n->type) {
 		mh->fl &= ~MANH_LITERAL;
-		PAIR_CLASS_INIT(&tag, "subsection");
-		print_otag(h, TAG_DIV, 1, &tag);
+		print_otag(h, TAG_SECTION, 0, NULL);
 		return(1);
 	} else if (MAN_BODY == n->type)
 		return(1);
 
-	print_otag(h, TAG_H2, 0, NULL);
+	bufinit(h);
+	for (n = n->child; n && MAN_TEXT == n->type; ) {
+		bufcat_id(h, n->string);
+		if (NULL != (n = n->next))
+			bufcat_id(h, " ");
+	}
+
+	if (NULL == n) {
+		PAIR_ID_INIT(&tag, h->buf);
+		print_otag(h, TAG_H3, 1, &tag);
+	} else
+		print_otag(h, TAG_H3, 0, NULL);
+
 	return(1);
 }
+
+
+/* ARGSUSED */
+static int
+man_SS_post(MAN_ARGS)
+{
+	if (MAN_HEAD != n->type)
+		return 1;
+	print_otag(h, TAG_P, 0, NULL);
+	return 1;
+}
+
+
 
 /* ARGSUSED */
 static int

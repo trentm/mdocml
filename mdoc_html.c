@@ -574,7 +574,6 @@ mdoc_sh_pre(MDOC_ARGS)
 		return(1);
 
 	bufinit(h);
-
 	for (n = n->child; n && MDOC_TEXT == n->type; ) {
 		bufcat_id(h, n->string);
 		if (NULL != (n = n->next))
@@ -595,7 +594,7 @@ static void
 mdoc_sh_post(MDOC_ARGS)
 {
 	if (MDOC_HEAD != n->type)
-		return(1);
+		return;
 	print_otag(h, TAG_P, 0, NULL);
 }
 
@@ -612,7 +611,6 @@ mdoc_ss_pre(MDOC_ARGS)
 		return(1);
 
 	bufinit(h);
-
 	for (n = n->child; n && MDOC_TEXT == n->type; ) {
 		bufcat_id(h, n->string);
 		if (NULL != (n = n->next))
